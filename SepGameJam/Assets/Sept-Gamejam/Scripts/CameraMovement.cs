@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
+    public static CameraMovement instance = null;
+
     public float cameraDistance;
     public float verticalHeight;
     public float turnRate;
@@ -12,13 +14,20 @@ public class CameraMovement : MonoBehaviour {
     public float followDamping;
     public float timeRate;
     public GameObject target;
+    [HideInInspector]
+    public bool inRotation = false;
+    [HideInInspector]
+    public bool switchStateOn = false;
 
     private Vector3 direction;
-    private bool switchStateOn = false;
-    private bool inRotation = false;
-
-    private void Start()
+    
+    private void Awake()
     {
+        if (instance == null)
+            instance = this;
+        else if (instance != null)
+            Destroy(gameObject);
+
         ResetCameraPosition();
         StartCoroutine(FollowCamera());
     }
