@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameFlowManager : ManagerBase<GameFlowManager> {
 	[Serializable]
@@ -21,7 +21,8 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
 	private GameUI _playGameUI;
 
-	void Start () {
+	protected override void Awake () {
+		base.Awake();
 		if(_gameUIPrefab != null) {
 			var menu = Instantiate(_gameUIPrefab);
 			_playGameUI = menu.GetComponent<GameUI>();
@@ -34,12 +35,24 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 	}
 	
 	public void AddScore(int points) {
-		_score += points;
 		//update socre in ui
-		_playGameUI.UpdateScoreText(points);
+		_playGameUI.UpdateScoreText(_score, points);
+		_score += points;
 	}
 
 	public int GetScore() {
 		return _score;
+	}
+
+	public void ChangeScene(string sceneName) {
+		SceneManager.LoadScene(sceneName);
+	}
+
+	public void DecreasePlayerLifeUI(float amount) {
+		_playGameUI.DecreaseLife(amount);
+	}
+
+	public void IncreasePlayerLifeUI(float amount) {
+		_playGameUI.AddLife(amount);
 	}
 }
