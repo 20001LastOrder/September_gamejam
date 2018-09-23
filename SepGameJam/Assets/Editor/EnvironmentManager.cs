@@ -59,7 +59,7 @@ public class EnvironmentManager : EditorWindow {
     private void GenerateLevel()
     {
         GameObject gameObject = null;
-        GameObject previousObj;
+   
         int objectLength = 10;
         Vector3 spawnPoint = startPoint;
         int record = 0;
@@ -67,7 +67,7 @@ public class EnvironmentManager : EditorWindow {
         float height = 0;
 
         while (record <= levelLength && floor != null) {
-            previousObj = gameObject;
+
             gameObject = (GameObject)PrefabUtility.InstantiatePrefab(floor);
             bool reachLimit = false;
             // level generation rule

@@ -55,7 +55,7 @@ public class CameraMovement : MonoBehaviour {
         if (target != null)
         {
             
-            Transform body = target.transform.GetChild(2);
+            
 
             Vector3 position = target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);
             
