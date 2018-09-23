@@ -11,6 +11,7 @@ public class PlayerJump : MonoBehaviour {
     private bool onGround;
     private Animator anim;
     protected Rigidbody rig;
+    private bool jumpRequest;
     private bool canJump = true;
 
     private void Awake()
@@ -41,26 +42,10 @@ public class PlayerJump : MonoBehaviour {
             anim.SetBool("onGround", false);
         }
 
-        if (Input.GetButton("Jump") && onGround && canJump)
+        if (Input.GetButtonDown("Jump"))
         {
-            // set the animator trigger to true
-            anim.SetBool("onGround", false);
-            anim.SetTrigger("Jump");
-            canJump = false;
-
-            rig.velocity = Vector3.up * jumpForce;
-
+            jumpRequest = true;
         }
-
-        if (rig.velocity.y < 0)             // falling
-        {
-            rig.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }
-        else if (!Input.GetButton("Jump") && rig.velocity.y > 0)            // jumped up but not falling
-        {
-            rig.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
-        }
-
 
         if (Input.GetButtonUp("Jump"))
         {
@@ -68,6 +53,32 @@ public class PlayerJump : MonoBehaviour {
         }
 
         Debug.Log(rig.velocity);
+    }
+
+    private void FixedUpdate()
+    {
+        if (jumpRequest && canJump && onGround)
+        {
+            // set the animator trigger to true
+            anim.SetBool("onGround", false);
+            anim.SetTrigger("Jump");
+            
+            canJump = false;
+
+            rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+            jumpRequest = false;
+        }
+
+
+         if (rig.velocity.y < 0)             // falling
+        {
+            rig.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (!Input.GetButton("Jump") && rig.velocity.y > 0)            // jumped up but not falling
+        {
+            rig.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
     }
 
     //private bool isGrounded()
