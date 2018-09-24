@@ -373,4 +373,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destination: {x: 5.15, y: 3.69, z: 157.19}
   doorText: {fileID: 102396462071491592}
-  locked: 0
+  locked: 1
