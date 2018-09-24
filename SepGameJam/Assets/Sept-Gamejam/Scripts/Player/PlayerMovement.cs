@@ -1,39 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
 
     public float speed = 2;
-    public float jumpForce;
-    public float detectLength;
-    public LayerMask floorLayer;
-
-    private bool onGround;
+    
+    
     private Animator anim;
-    private Rigidbody rig;
+    protected Rigidbody rig;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
         anim = GetComponent<Animator>();
         rig = GetComponent<Rigidbody>();
+        
 
-        onGround = true;
+        Physics.gravity = new Vector3(0, -20, 0);
+    }
+
+
+    // Use this for initialization
+    void Start () {
+        
 	}
 
-    private void Update()
-    {
-        Jump();
-
-        if (rig.velocity.y < 0)
-        {
-            Physics.gravity = new Vector3(0, -40f, 0);
-        }
-        else
-        {
-            Physics.gravity = new Vector3(0, -9.98f, 0);
-        }
-    }
 
     // Update is called once per frame
     void FixedUpdate () {
@@ -43,72 +35,70 @@ public class PlayerMovement : MonoBehaviour {
 
         Move(movementH, movementV);
 
-        Turn(movementH, movementV);
+        
+
+        Debug.Log(Physics.gravity);
 
         AnimateMovement(movementH, movementV);
     }
 
     private void Move(float h, float v)
     {
-        Vector3 newPosition = transform.position + new Vector3(v, 0, h);
-        transform.position = newPosition; 
-    }
-
-    private void Jump()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
+        // Not allowed to move during the camera turn
+        if (CameraMovement.instance.inRotation == true)
         {
-            Physics.gravity = new Vector3(0, -9.98f, 0);
-            // set the animator trigger to true
-            anim.SetBool("onGround", false);
-            anim.SetTrigger("Jump");
-            
+            return;
         }
 
-        if (isGrounded())
+        // During the movement, if it's on the left side of the map we need to swtich the controls
+        // which means left == right
+        if (CameraMovement.instance.switchStateOn == false)
         {
-            anim.SetBool("onGround", true);
+            Vector3 newPosition = transform.position + new Vector3(0, 0, h);
+            transform.position = newPosition;
+            Turn(h, 0);
         }
         else
         {
-            anim.SetBool("onGround", false);
+            Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
+            transform.position = newPosition;
+            Turn(-h, 0);
         }
     }
 
-    public void Raise()
-    {
-        rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
+    
 
     private void Turn(float h, float v)
     {
-        // go forward
-        if (h > 0)
-        {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.forward);
-            transform.rotation = rotation;
-        }
+        
+            // go forward
+            if (h > 0)
+            {
+                Quaternion rotation = Quaternion.LookRotation(Vector3.forward);
+                transform.rotation = rotation;
+            }
 
-        // go backward
-        if (h < 0)
-        {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.back);
-            transform.rotation = rotation;
-        }
+            // go backward
+            if (h < 0)
+            {
+                Quaternion rotation = Quaternion.LookRotation(Vector3.back);
+                transform.rotation = rotation;
+            }
 
-        // go left
-        if (v < 0)
-        {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.left);
-            transform.rotation = rotation;
-        }
+            // go left
+            if (v < 0)
+            {
+                Quaternion rotation = Quaternion.LookRotation(Vector3.left);
+                transform.rotation = rotation;
+            }
 
-        // go right
-        if (v > 0)
-        {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.right);
-            transform.rotation = rotation;
-        }
+            // go right
+            if (v > 0)
+            {
+                Quaternion rotation = Quaternion.LookRotation(Vector3.right);
+                transform.rotation = rotation;
+            }
+        
     }
 
     private void AnimateMovement(float h, float v)
@@ -133,19 +123,10 @@ public class PlayerMovement : MonoBehaviour {
     //    }
     //}
 
-    private bool isGrounded()
+   
+
+    public Vector3 GetBumpDirection()
     {
-        RaycastHit hitResult;
-
-        Physics.Raycast(transform.position, Vector3.down, out hitResult, detectLength, floorLayer, QueryTriggerInteraction.Ignore);
-
-        if (hitResult.transform != null)
-            Debug.Log(hitResult.transform.gameObject);
-
-        if (Mathf.Abs(rig.velocity.y) > 0.005 && hitResult.transform == null)
-        {
-            return false;
-        }
-        return true;
+        return -transform.forward;
     }
 }
