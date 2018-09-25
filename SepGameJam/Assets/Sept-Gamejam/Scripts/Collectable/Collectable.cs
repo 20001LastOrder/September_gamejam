@@ -24,7 +24,7 @@ public class Collectable : MonoBehaviour {
 			//destroy the collectable for now, adding score later
             GameObject.Destroy(this.gameObject);
 			GameFlowManager.Instance.AddScore(points);
-			Debug.Log(GameFlowManager.Instance.GetScore());
-        }
+
+		}
     }
 }

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 135734326052517104}
   - component: {fileID: 114047404945506994}
   m_Layer: 0
-  m_Name: TestCollectable
+  m_Name: Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17aa5595c5781df4583dce57b772b018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _color: {r: 0, g: 0, b: 0, a: 0}
-  points: 0
+  _color: {r: 0.9056604, g: 0.84614986, b: 0.029903898, a: 0}
+  points: 100
 --- !u!135 &135734326052517104
 SphereCollider:
   m_ObjectHideFlags: 1

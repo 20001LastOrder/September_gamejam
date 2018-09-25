@@ -22,7 +22,11 @@ public class FallDetecter : MonoBehaviour {
     {
         if (player != null)
         {
-
+			var health = player.GetComponent<PlayerHealth>();
+			if(health!= null) {
+				health.LoseHeath(1);
+			}
+			Application.OpenURL("www.google.com");
             player.position = checkPoint + new Vector3(0f, height, 0f);
         }
     }
