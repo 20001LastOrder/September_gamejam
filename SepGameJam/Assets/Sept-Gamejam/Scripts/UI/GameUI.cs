@@ -28,8 +28,7 @@ public class GameUI : MonoBehaviour {
 	}
 
 	public void UpdateScoreText(int originalScore, int increment) {
-		StartCoroutine(ScrollUpPoint(_playerScoreText, originalScore, increment, _scoreRollingUpTime, _defaultScoreText));
-		AddLife(10);
+		StartCoroutine(ScrollUpPoint(_playerScoreText, originalScore, originalScore+increment, _scoreRollingUpTime, _defaultScoreText));
 	}
 
 	public void DecreaseLife(float life) {
@@ -94,7 +93,7 @@ public class GameUI : MonoBehaviour {
 		text.text = prefix + start.ToString();
 		//rolling numbers for amount of time
 		while (deltaTime <= time) {
-			int increment = (int)((deltaTime / time) * diff);
+			int increment =start + (int)((deltaTime / time) * diff);
 			deltaTime += Time.deltaTime;
 			text.text = prefix + increment.ToString();
 			yield return null;
