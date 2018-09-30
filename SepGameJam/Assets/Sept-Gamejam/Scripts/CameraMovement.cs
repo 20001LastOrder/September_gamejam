@@ -28,12 +28,18 @@ public class CameraMovement : MonoBehaviour {
         else if (instance != null)
             Destroy(gameObject);
 
-        ResetCameraPosition();
-        StartCoroutine(FollowCamera());
+        //ResetCameraPosition();
+       // StartCoroutine(FollowCamera());
     }
 
-    // Update is called once per frame
-    private void Update()
+	private void OnEnable() {
+		//Restart corotine when the camera is activated(go back from pause menu)
+		StartCoroutine(FollowCamera());
+	}
+
+
+	// Update is called once per frame
+	private void Update()
     {
         // if some key is pressed then switch the camera position to the other side
         if (Input.GetKeyDown(KeyCode.R))

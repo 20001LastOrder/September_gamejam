@@ -16,7 +16,7 @@ public abstract class ManagerBase<T> : MonoBehaviour where T : ManagerBase<T>{
 	protected virtual void Awake() {
 		//create a new static instance when awake
 		_manager = (T)this;
-		DontDestroyOnLoad(this);
+		//DontDestroyOnLoad(this);
 	}
 	
 	public bool Exist() {

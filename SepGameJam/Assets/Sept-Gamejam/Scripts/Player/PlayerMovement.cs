@@ -31,18 +31,17 @@ public class PlayerMovement : MonoBehaviour {
     void FixedUpdate () {
 
         float movementH = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float movementV = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-        Move(movementH, movementV);
+        Move(movementH);
 
         
 
         Debug.Log(Physics.gravity);
 
-        AnimateMovement(movementH, movementV);
+        AnimateMovement(movementH);
     }
 
-    private void Move(float h, float v)
+    private void Move(float h)
     {
         // Not allowed to move during the camera turn
         if (CameraMovement.instance.inRotation == true)
@@ -101,9 +100,9 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
-    private void AnimateMovement(float h, float v)
+    private void AnimateMovement(float h)
     {
-        if (h != 0 || v != 0)
+        if (h != 0)
         {
             anim.SetBool("isRunning", true);
         }
