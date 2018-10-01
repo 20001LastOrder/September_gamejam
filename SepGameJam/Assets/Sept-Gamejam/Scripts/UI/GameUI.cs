@@ -8,7 +8,13 @@ public class GameUI : MonoBehaviour {
 	[SerializeField]
 	private Text _playerScoreText;
 
-	[SerializeField]
+    [SerializeField]
+    private Image _KeyImage;
+
+    [SerializeField]
+    private Image _CubeImage;
+
+    [SerializeField]
 	private GameObject _playerLifeParent;
 	[SerializeField]
 	private GameObject _playerLifePrefab;
@@ -62,7 +68,12 @@ public class GameUI : MonoBehaviour {
 		}
 	}
 
-	public void AddLife(float life) {
+    internal void UpdateKey()
+    {
+        _KeyImage.enabled = true;
+    }
+
+    public void AddLife(float life) {
 		while(life > 0) {
 			float thisFill = 0;
 			if(_playerLifes.Count == 0 || _playerLifes.Peek().fillAmount >= 1) {
@@ -77,7 +88,15 @@ public class GameUI : MonoBehaviour {
 		}
 	}
 
-	public void GameOver() {
+    internal void UpdateCube(bool b)
+    {
+        if (b)
+            _CubeImage.enabled = true;
+        else if (!b)
+            _CubeImage.enabled = false;
+    }
+
+    public void GameOver() {
 		_gameOver.SetActive(true);
 	}
 

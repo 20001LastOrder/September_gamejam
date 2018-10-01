@@ -30,6 +30,9 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
 	private GameUI _playGameUI;
 
+    private bool hasKey = false;
+    private bool hasCube = false;
+
 	protected override void Awake () {
 		base.Awake();
 		if(_gameUIPrefab != null) {
@@ -54,6 +57,26 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 		_playGameUI.UpdateScoreText(_score, points);
 		_score += points;
 	}
+
+    public void ObtainKey()
+    {
+        hasKey = true;
+        _playGameUI.UpdateKey(); 
+        GameObject.Find("LockedDoor").GetComponent<DoorScript>().Unlock();
+    }
+
+    public void ObtainCube()
+    {
+        hasCube = true;
+        _playGameUI.UpdateCube(true);
+        NPCEventManager.instance.ObtainCubeTrigger();
+    }
+
+    public void LoseCube()
+    {
+        hasCube = false;
+        _playGameUI.UpdateCube(false);
+    }
 
 	public int GetScore() {
 		return _score;

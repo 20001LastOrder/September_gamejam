@@ -11,8 +11,8 @@ public class PlayerJump : MonoBehaviour {
     private bool onGround;
     private Animator anim;
     protected Rigidbody rig;
-    private bool jumpRequest;
-    private bool canJump = true;
+    public bool jumpRequest;
+    public bool canJump = true;
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class PlayerJump : MonoBehaviour {
             anim.SetBool("onGround", false);
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && onGround)
         {
             jumpRequest = true;
         }
@@ -60,13 +60,15 @@ public class PlayerJump : MonoBehaviour {
     {
         if (jumpRequest && canJump && onGround)
         {
+            canJump = false;
             // set the animator trigger to true
             anim.SetBool("onGround", false);
             anim.SetTrigger("Jump");
             
+
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-            canJump = false;
+            
             jumpRequest = false;
         }
 
@@ -104,7 +106,7 @@ public class PlayerJump : MonoBehaviour {
 
     private void isGrounded()
     {
-        if (Mathf.Abs(rig.velocity.y) >= 0.03)
+        if (Mathf.Abs(rig.velocity.y) >= 0.003)
         {
             onGround = false;
         }

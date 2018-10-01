@@ -56,3 +56,5 @@ MonoBehaviour:
   _dialoguePrefab: {fileID: 1298432396389508, guid: 9f7ef25d3c67ee547ba13fd78b7b6fd7,
     type: 2}
   _serializeRankingBoard: {fileID: 0}
+  _player: {fileID: 0}
+  _mainCamera: {fileID: 0}

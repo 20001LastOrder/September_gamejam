@@ -43,6 +43,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        this.gameObject.GetComponent<Image>().enabled = false;
         isActive = false;
         isTyping = false;
         dialogue = "";
@@ -59,7 +60,9 @@ public class DialogueManager : MonoBehaviour
 
     public void Show(int numLine)
     {
+        Debug.Log(numLine);
         lineNum = numLine;
+        this.gameObject.GetComponent<Image>().enabled = true;
 
         StartCoroutine(Dialogue());
     }
@@ -101,7 +104,31 @@ public class DialogueManager : MonoBehaviour
     void ParseLine()
     {
 
-        if (parser.GetName(lineNum) != "Player")
+        if (parser.GetName(lineNum) == "Player")
+        {
+            playerTalking = true;
+            options = parser.GetOptions(lineNum);
+            CreateButtons();
+        }
+        else if (parser.GetName(lineNum) == "End")
+        {
+            switch (parser.GetContent(lineNum))
+            {
+                case "end1":
+                    NPCEventManager.instance.FinishMeetUp();
+                    SetActive(false);
+                    break;
+                case "endDoom":
+                    GameFlowManager.Instance.LoseCube();
+                    SetActive(false);
+                    break;
+                default:
+                    SetActive(false);
+                    break;
+            }
+            
+        }
+        else
         {
             playerTalking = false;
             ClearButtons();
@@ -109,16 +136,6 @@ public class DialogueManager : MonoBehaviour
             dialogue = parser.GetContent(lineNum);
             //dialogue = dialogue.Replace ('$', '\n');
             StartCoroutine(TypeWriterEffect());
-        }
-        else if (parser.GetName(lineNum) == "End")
-        {
-            SetActive(false);
-        }
-        else
-        {
-            playerTalking = true;
-            options = parser.GetOptions(lineNum);
-            CreateButtons();
         }
     }
 
@@ -134,7 +151,7 @@ public class DialogueManager : MonoBehaviour
             cb.option = options[i].Split(':')[1];
             cb.box = this;
             b.transform.SetParent(this.transform);
-            b.transform.localPosition = new Vector3(-200 + (i * 400), -100);
+            b.transform.localPosition = new Vector3(-170 + (i * 320), 50);
             b.transform.localScale = new Vector3(1, 1, 1);
             buttons.Add(b);
         }
@@ -188,6 +205,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (b == false)
         {
+            this.gameObject.GetComponent<Image>().enabled = false;
             Debug.Log("reset buttons and text");
             playerTalking = false;
             hasChoice = false;

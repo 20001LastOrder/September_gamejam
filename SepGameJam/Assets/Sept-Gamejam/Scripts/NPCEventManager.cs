@@ -8,10 +8,9 @@ public class NPCEventManager : MonoBehaviour {
 
     public static NPCEventManager instance = null;
 
-    public Camera camera;
-    public List<Event> eventList;
     private Event currentEvent;
     private NPCscript npc;
+
 
     //[System.Serializable]
     //public struct Event
@@ -51,7 +50,6 @@ public class NPCEventManager : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
-        eventList = new List<Event>();
     }
 
     // Use this for initialization
@@ -64,11 +62,31 @@ public class NPCEventManager : MonoBehaviour {
 		
 	}
 
-    public void TriggerEvent(string eventName, GameObject objRef, EventType type)
+    public void ObtainCubeTrigger()
     {
-        GreetPlayer.instance.Enter(npc);
+        MeetPlayerAtTheEnd.instance.SetLine(true);
+    }
 
-        GreetPlayer.instance.Execute(npc);
+    public void FinishMeetUp()
+    {
+        GreetPlayer.instance.SetLine(true);
+    }
+
+    public void TriggerEvent(int stage)
+    {
+        Debug.Log(stage);
+        switch (stage)
+        {
+            case 0:
+                GreetPlayer.instance.Enter(npc);
+                GreetPlayer.instance.Execute(npc);
+                break;
+            case 1:
+                
+                MeetPlayerAtTheEnd.instance.Enter(npc);
+                MeetPlayerAtTheEnd.instance.Execute(npc);
+                break;
+        }
     }
 
     public void Reset()
@@ -79,7 +97,24 @@ public class NPCEventManager : MonoBehaviour {
     //**************** NPC state ****************//
     public class GreetPlayer : Event<NPCscript>
     {
+        private static int firstMeetDiaLine = 4;
+        private static int secondMeetDiaLine = 18;
+
+        private int currentLine = firstMeetDiaLine;
+
         public static GreetPlayer instance = new GreetPlayer();
+
+        public void SetLine(bool b)
+        {
+            if (b)
+            {
+                currentLine = secondMeetDiaLine;
+            }
+            else
+            {
+                currentLine = firstMeetDiaLine;
+            }
+        }
 
         public override void Enter(NPCscript npc)
         {
@@ -88,7 +123,52 @@ public class NPCEventManager : MonoBehaviour {
 
         public override void Execute(NPCscript npc)
         {
-            npc.Talk();
+            npc.Talk(currentLine);
+        }
+
+        public override void Exit(NPCscript npc)
+        {
+            npc.ZoomoutCamera();
+        }
+
+        public override bool onMessage(NPCscript npc)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // Final state: Meet player at the gate
+    public class MeetPlayerAtTheEnd : Event<NPCscript>
+    {
+        private static int noCubeMeetDiaLine = 25;
+        private static int hasCubeMeetDiaLine = 38;
+
+        private int currentLine = noCubeMeetDiaLine;
+
+        public static MeetPlayerAtTheEnd instance = new MeetPlayerAtTheEnd();
+
+        public void SetLine(bool b)
+        {
+            if (b)
+            {
+                currentLine = hasCubeMeetDiaLine;
+            }
+            else
+            {
+                currentLine = noCubeMeetDiaLine;
+            }
+        }
+
+        public override void Enter(NPCscript npc)
+        {
+            
+            npc.ZoominCamera();
+        }
+
+        public override void Execute(NPCscript npc)
+        {
+            Debug.Log("end event trigger");
+            npc.Talk(currentLine);
         }
 
         public override void Exit(NPCscript npc)

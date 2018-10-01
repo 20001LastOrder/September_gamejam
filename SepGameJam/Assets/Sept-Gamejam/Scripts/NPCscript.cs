@@ -6,17 +6,35 @@ using UnityEngine;
 public class NPCscript : MonoBehaviour {
 
     private bool inEvent = false;
-    public int numLine = 0;
+    public int stage = 0;
+
+    private void Start()
+    {
+        transform.position = new Vector3(18.91f, 11.25f, 44.81f);
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && inEvent == true)
+        if (DialogueManager.instance != null)
         {
-            DialogueManager.instance.nextLine = true;
+            if (Input.GetKeyDown(KeyCode.E) && inEvent == true)
+            {
+                DialogueManager.instance.nextLine = true;
+            }
+            else
+            {
+                DialogueManager.instance.nextLine = false;
+            }
         }
-        else
+
+        // move the npc to the next stage
+        if (GameObject.Find("Player1") != null && stage == 0)
         {
-            DialogueManager.instance.nextLine = false;
+            if (GameObject.Find("Player1").transform.position.z > 110)
+            {
+                transform.position = new Vector3(20, 5.61f, 355);
+                stage = 1;
+            }
         }
     }
 
@@ -27,8 +45,8 @@ public class NPCscript : MonoBehaviour {
             // some text show the player how to interact
             if (Input.GetKeyDown(KeyCode.E) && inEvent == false)
             {
-                Debug.Log("trigger");
-                NPCEventManager.instance.TriggerEvent("GreetPlayer", this.gameObject, NPCEventManager.EventType.instant);
+                
+                NPCEventManager.instance.TriggerEvent(stage);
                 
             }
         }
@@ -54,9 +72,8 @@ public class NPCscript : MonoBehaviour {
         Debug.Log("zoom in the camera");
     }
 
-    public void Talk()
+    public void Talk(int numLine)
     {
-        Debug.Log("execute");
         inEvent = true;
         DialogueManager.instance.Show(numLine);
     }
@@ -64,6 +81,7 @@ public class NPCscript : MonoBehaviour {
     public void ZoomoutCamera()
     {
         Debug.Log("zoom out the camera");
+        
     }
     
 }

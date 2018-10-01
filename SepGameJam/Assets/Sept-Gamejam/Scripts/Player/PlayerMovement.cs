@@ -15,9 +15,6 @@ public class PlayerMovement : MonoBehaviour {
     {
         anim = GetComponent<Animator>();
         rig = GetComponent<Rigidbody>();
-        
-
-        Physics.gravity = new Vector3(0, -20, 0);
     }
 
 
@@ -25,6 +22,11 @@ public class PlayerMovement : MonoBehaviour {
     void Start () {
         
 	}
+
+    private void Update()
+    {
+        anim.SetFloat("Velocity", rig.velocity.y);
+    }
 
 
     // Update is called once per frame

@@ -31,6 +31,15 @@ public class Collectable : MonoBehaviour {
             GameObject.Destroy(this.gameObject);
 			GameFlowManager.Instance.AddScore(points);
 
+            if (this.gameObject.tag == "Key")
+            {
+
+            }
+
+            if (this.gameObject.tag == "Cube")
+            {
+
+            }
 		}
     }
 }

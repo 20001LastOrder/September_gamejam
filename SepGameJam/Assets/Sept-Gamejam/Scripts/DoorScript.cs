@@ -32,7 +32,7 @@ public class DoorScript : MonoBehaviour {
         }
     }
 
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.E) && !locked)
         {
@@ -65,5 +65,10 @@ public class DoorScript : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         textRenderer.enabled = false;
+    }
+
+    public void Unlock()
+    {
+        locked = false;
     }
 }
