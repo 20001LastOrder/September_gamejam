@@ -19,6 +19,12 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
     [SerializeField]
 	SerializedRankingBoard _serializeRankingBoard;
 
+	[SerializeField]
+	private GameObject _player;
+
+	[SerializeField]
+	private Camera _mainCamera;
+
 	private int _score;
 	private string _defaultName = "player1";
 
@@ -28,8 +34,8 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 		base.Awake();
 		if(_gameUIPrefab != null) {
 			var menu = Instantiate(_gameUIPrefab);
-			_playGameUI = menu.GetComponent<GameUI>();
-			DontDestroyOnLoad(menu);
+			_playGameUI = menu.GetComponentsInChildren<GameUI>(true)[0];
+			//DontDestroyOnLoad(menu);
 		}
 
         if (_dialoguePrefab != null)
@@ -53,12 +59,29 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 		return _score;
 	}
 
-	public void ChangeScene(string sceneName) {
-		SceneManager.LoadScene(sceneName);
+	public void StartGame() {
+		_player.SetActive(true);
+		//switch to main camera
+		_mainCamera.gameObject.SetActive(true);
+	}
+
+	public void Pause() {
+		_mainCamera.gameObject.SetActive(false);
+		_player.SetActive(false);
+	}
+
+	public void Resume() {
+		_mainCamera.gameObject.SetActive(true);
+		_player.SetActive(true);
 	}
 
 	public void DecreasePlayerLifeUI(float amount) {
 		_playGameUI.DecreaseLife(amount);
+	}
+
+	public void GameOver() {
+		_playGameUI.GameOver();
+		_player.SetActive(false);
 	}
 
 	public void IncreasePlayerLifeUI(float amount) {

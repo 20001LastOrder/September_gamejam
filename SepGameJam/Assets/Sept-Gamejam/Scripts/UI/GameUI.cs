@@ -19,6 +19,9 @@ public class GameUI : MonoBehaviour {
 	private float _lifeFillMax = 1;
 
 	[SerializeField]
+	private GameObject _gameOver;
+
+	[SerializeField]
 	private float _scoreRollingUpTime = 2.0f;
 
 	private const string _defaultScoreText = "Socre: ";
@@ -72,6 +75,10 @@ public class GameUI : MonoBehaviour {
 			}
 			life -= thisFill;
 		}
+	}
+
+	public void GameOver() {
+		_gameOver.SetActive(true);
 	}
 
 	private void CreateFullLifes(float fillAmount) {

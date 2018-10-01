@@ -21,23 +21,27 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    private void Update()
-    {
-        anim.SetFloat("Velocity", rig.velocity.y);
-    }
+    // Use this for initialization
+    void Start () {
+        
+	}
+
 
     // Update is called once per frame
     void FixedUpdate () {
 
         float movementH = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-        float movementV = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-        Move(movementH, movementV);
+        Move(movementH);
 
-        AnimateMovement(movementH, movementV);
+        
+
+        Debug.Log(Physics.gravity);
+
+        AnimateMovement(movementH);
     }
 
-    private void Move(float h, float v)
+    private void Move(float h)
     {
         // Not allowed to move during the camera turn
         if (CameraMovement.instance.inRotation == true)
@@ -49,15 +53,15 @@ public class PlayerMovement : MonoBehaviour {
         // which means left == right
         if (CameraMovement.instance.switchStateOn == false)
         {
-            Vector3 newPosition = transform.position + new Vector3(-v, 0, h);
+            Vector3 newPosition = transform.position + new Vector3(0, 0, h);
             transform.position = newPosition;
-            Turn(h, -v);
+            Turn(h, 0);
         }
         else
         {
-            Vector3 newPosition = transform.position + new Vector3(v, 0, -h);
+            Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
             transform.position = newPosition;
-            Turn(-h, v);
+            Turn(-h, 0);
         }
     }
 
@@ -96,9 +100,9 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
-    private void AnimateMovement(float h, float v)
+    private void AnimateMovement(float h)
     {
-        if (h != 0 || v != 0)
+        if (h != 0)
         {
             anim.SetBool("isRunning", true);
         }

@@ -17,17 +17,15 @@ public class PlayerHealth : MonoBehaviour {
         moveScript = GetComponent<PlayerMovement>();
 		GameFlowManager.Instance.IncreasePlayerLifeUI(healthPoint);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void LoseHeath(int healthToLose)
     {
         healthPoint -= healthToLose;
 		GameFlowManager.Instance.DecreasePlayerLifeUI(healthToLose);
 		BumpBack();
+		if(healthPoint <= 0) {
+			GameFlowManager.Instance.GameOver();
+		}
     }
 
     private void BumpBack()
