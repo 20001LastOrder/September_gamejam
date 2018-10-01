@@ -7,6 +7,9 @@ public class DoorScript : MonoBehaviour {
     public Vector3 destination;
     public TextMesh doorText;
 
+    [SerializeField]
+    private Color _color;
+
     public bool locked;
     private GameObject entity;
     private MeshRenderer textRenderer;
@@ -14,6 +17,12 @@ public class DoorScript : MonoBehaviour {
 
     private void Start()
     {
+        var materials = gameObject.GetComponentsInChildren<MeshRenderer>();
+        for (int i=0; i < materials.Length; i++)
+        {
+            materials[i].material.SetColor("_EmissionColor", _color);
+        }
+
         textRenderer = transform.GetChild(2).gameObject.GetComponent<MeshRenderer>();
         textRenderer.enabled = false;
         
@@ -44,7 +53,7 @@ public class DoorScript : MonoBehaviour {
             textRenderer.enabled = true;
             doorText.text = "A key is required";
         }
-        else
+        else if (other.gameObject.tag == "Player")
         {
             textRenderer.enabled = true;
             doorText.text = "Press E to enter";

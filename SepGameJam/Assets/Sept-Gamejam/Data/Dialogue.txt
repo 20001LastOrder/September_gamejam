@@ -1,0 +1,4 @@
+Lancer;Time to go.;;
+Player;Yes:line,2;No:line,3
+Lancer;Yes;;
+Lancer;No;;

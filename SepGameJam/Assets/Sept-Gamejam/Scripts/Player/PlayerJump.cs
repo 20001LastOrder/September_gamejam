@@ -31,6 +31,8 @@ public class PlayerJump : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        isGrounded();
+
         // gracity constant change
         // make the player fall faster
         if (onGround)
@@ -52,7 +54,6 @@ public class PlayerJump : MonoBehaviour {
             canJump = true;
         }
 
-        Debug.Log(rig.velocity);
     }
 
     private void FixedUpdate()
@@ -63,10 +64,9 @@ public class PlayerJump : MonoBehaviour {
             anim.SetBool("onGround", false);
             anim.SetTrigger("Jump");
             
-            canJump = false;
-
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
+            canJump = false;
             jumpRequest = false;
         }
 
@@ -102,15 +102,17 @@ public class PlayerJump : MonoBehaviour {
     //    return true;
     //}
 
-    private void OnCollisionStay(Collision collision)
+    private void isGrounded()
     {
-        if (rig.velocity.y <= 0)
-        {
-            onGround = true;
-        }
-        else
+        if (Mathf.Abs(rig.velocity.y) >= 0.03)
         {
             onGround = false;
         }
+        else
+        {
+            onGround = true;
+        }
     }
+
+    
 }

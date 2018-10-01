@@ -147,7 +147,6 @@ public class EnvironmentManager : EditorWindow {
             }
 
             // go the next tile with distance of 10
-            Debug.Log(height);
             record += objectLength;
         }
     }

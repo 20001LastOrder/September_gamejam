@@ -385,10 +385,9 @@ GameObject:
   - component: {fileID: 4932685341397762}
   - component: {fileID: 95408015834163316}
   - component: {fileID: 54502600560700950}
-  - component: {fileID: 114306190249592204}
+  - component: {fileID: 114503010693930074}
   - component: {fileID: 114429836540047196}
   - component: {fileID: 114706125068357200}
-  - component: {fileID: 65598767699610704}
   - component: {fileID: 65758168608913738}
   m_Layer: 0
   m_Name: Player1
@@ -926,7 +925,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1854738056481130}
   m_LocalRotation: {x: -0, y: 0.0028679706, z: -0, w: 0.99999595}
-  m_LocalPosition: {x: 5.19, y: 3.69, z: 157.19}
+  m_LocalPosition: {x: 15.12, y: 26.69, z: 145.13}
   m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 4124114755360808}
@@ -995,18 +994,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &65598767699610704
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854738056481130}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.17, z: 0.05}
-  m_Center: {x: 0, y: 0.086, z: 0}
 --- !u!65 &65758168608913738
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1037,7 +1024,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114306190249592204
+--- !u!114 &114429836540047196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854738056481130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf52cde4420c1549bffaf25dce9fb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
+--- !u!114 &114503010693930074
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1051,18 +1050,6 @@ MonoBehaviour:
   jumpForce: 140
   fallMultiplier: 3
   lowJumpMultiplier: 3
---- !u!114 &114429836540047196
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1854738056481130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bf52cde4420c1549bffaf25dce9fb3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
 --- !u!114 &114706125068357200
 MonoBehaviour:
   m_ObjectHideFlags: 1

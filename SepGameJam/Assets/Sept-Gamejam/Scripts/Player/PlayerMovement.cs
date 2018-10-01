@@ -21,11 +21,10 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    // Use this for initialization
-    void Start () {
-        
-	}
-
+    private void Update()
+    {
+        anim.SetFloat("Velocity", rig.velocity.y);
+    }
 
     // Update is called once per frame
     void FixedUpdate () {
@@ -34,10 +33,6 @@ public class PlayerMovement : MonoBehaviour {
         float movementV = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
         Move(movementH, movementV);
-
-        
-
-        Debug.Log(Physics.gravity);
 
         AnimateMovement(movementH, movementV);
     }
@@ -54,15 +49,15 @@ public class PlayerMovement : MonoBehaviour {
         // which means left == right
         if (CameraMovement.instance.switchStateOn == false)
         {
-            Vector3 newPosition = transform.position + new Vector3(0, 0, h);
+            Vector3 newPosition = transform.position + new Vector3(-v, 0, h);
             transform.position = newPosition;
-            Turn(h, 0);
+            Turn(h, -v);
         }
         else
         {
-            Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
+            Vector3 newPosition = transform.position + new Vector3(v, 0, -h);
             transform.position = newPosition;
-            Turn(-h, 0);
+            Turn(-h, v);
         }
     }
 

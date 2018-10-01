@@ -81,6 +81,7 @@ public class CameraMovement : MonoBehaviour {
 
                 // move towards the location
                 transform.position = Vector3.MoveTowards(transform.position, newPosition, followSpeed);
+                transform.LookAt(target.transform);
             }
 
             yield return new WaitForFixedUpdate();

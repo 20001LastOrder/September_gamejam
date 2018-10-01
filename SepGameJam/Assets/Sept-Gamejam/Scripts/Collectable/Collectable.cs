@@ -11,12 +11,18 @@ public class Collectable : MonoBehaviour {
 
     public int points;
 
+    
 
 	private void Start() {
 		var material = gameObject.GetComponent<Renderer>().material;
 		if(material != null) {
 			material.color = _color;
 		}
+    }
+
+    private void Update()
+    {
+        transform.Rotate(0.5f, 0.5f, 0.5f);
     }
 
     private void OnTriggerEnter(Collider other) {

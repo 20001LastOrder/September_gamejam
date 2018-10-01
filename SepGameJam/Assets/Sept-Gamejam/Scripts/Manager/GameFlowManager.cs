@@ -13,7 +13,10 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 	[SerializeField]
 	private GameObject _gameUIPrefab;
 
-	[SerializeField]
+    [SerializeField]
+    private GameObject _dialoguePrefab;
+
+    [SerializeField]
 	SerializedRankingBoard _serializeRankingBoard;
 
 	private int _score;
@@ -28,7 +31,13 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 			_playGameUI = menu.GetComponent<GameUI>();
 			DontDestroyOnLoad(menu);
 		}
-	}
+
+        if (_dialoguePrefab != null)
+        {
+            var dialogueParser = Instantiate(_dialoguePrefab);
+            DontDestroyOnLoad(dialogueParser);
+        }
+    }
 
 	public void AddNewPlayer(string name, int score) {
 		_serializeRankingBoard.AddPair(name, score);
