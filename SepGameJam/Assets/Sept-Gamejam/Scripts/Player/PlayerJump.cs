@@ -7,6 +7,9 @@ public class PlayerJump : MonoBehaviour {
     public float jumpForce;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
+    public AudioSource playerAud;
+    public AudioClip audJump;
+    public AudioClip audLand;
 
     private bool onGround;
     private Animator anim;
@@ -64,16 +67,16 @@ public class PlayerJump : MonoBehaviour {
             // set the animator trigger to true
             anim.SetBool("onGround", false);
             anim.SetTrigger("Jump");
-            
 
+            playerAud.clip = audJump;
+            playerAud.Play();
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
             
             jumpRequest = false;
         }
 
 
-         if (rig.velocity.y < 0)             // falling
+        if (rig.velocity.y < 0)             // falling
         {
             rig.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -116,5 +119,18 @@ public class PlayerJump : MonoBehaviour {
         }
     }
 
-    
+    public bool grounded()
+    {
+        return onGround;
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.tag == "Floor" && rig.velocity.y > 0.03)
+    //    {
+    //        playerAud.clip = audLand;
+    //        playerAud.Play();
+    //    }
+    //}
+
 }

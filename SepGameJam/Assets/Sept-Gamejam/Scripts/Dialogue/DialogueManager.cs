@@ -62,7 +62,7 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log(numLine);
         lineNum = numLine;
-        this.gameObject.GetComponent<Image>().enabled = true;
+        
 
         StartCoroutine(Dialogue());
     }
@@ -76,6 +76,7 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("next line before = " + nextLine);
             yield return new WaitUntil(() => nextLine == true);
+            this.gameObject.GetComponent<Image>().enabled = true;
 
             if (playerTalking == false)
             {
@@ -119,7 +120,14 @@ public class DialogueManager : MonoBehaviour
                     SetActive(false);
                     break;
                 case "endDoom":
+                    // the evil wins the cube
                     GameFlowManager.Instance.LoseCube();
+                    SetActive(false);
+                    break;
+                case "endBad":
+                    // go to the website
+                    Application.OpenURL("https://casual-development-dogdays.c9users.io/dead");
+                    GameFlowManager.Instance.Lose();
                     SetActive(false);
                     break;
                 default:

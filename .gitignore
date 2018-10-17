@@ -1,4 +1,4 @@
-[Ll]ibrary/
+Library/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -37,3 +37,4 @@ sysinfo.txt
 
 Assets/StreamingAssets/   
 SepGameJam/.vs/SepGameJam/v15/Server/sqlite3/storage.ide
+SepGameJam/Assets/Sept-Gamejam/Scenes/SampleScene/LightingData.asset

@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour {
 
     public float speed = 2;
-    
-    
+    public AudioSource playerAud;
+    public AudioClip audWalk;
+
+    private PlayerJump jumpScript;
     private Animator anim;
     protected Rigidbody rig;
 
@@ -15,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         anim = GetComponent<Animator>();
         rig = GetComponent<Rigidbody>();
+        jumpScript = GetComponent<PlayerJump>();
     }
 
 
@@ -26,6 +29,11 @@ public class PlayerMovement : MonoBehaviour {
     private void Update()
     {
         anim.SetFloat("Velocity", rig.velocity.y);
+
+        if (jumpScript.grounded())
+        {
+            playerAud.clip = audWalk;
+        }
     }
 
 
@@ -57,12 +65,14 @@ public class PlayerMovement : MonoBehaviour {
         {
             Vector3 newPosition = transform.position + new Vector3(0, 0, h);
             transform.position = newPosition;
+            //if (playerAud.clip == audWalk && h>0) playerAud.Play();
             Turn(h, 0);
         }
         else
         {
             Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
             transform.position = newPosition;
+            //if (playerAud.clip == audWalk && h>0) playerAud.Play();
             Turn(-h, 0);
         }
     }

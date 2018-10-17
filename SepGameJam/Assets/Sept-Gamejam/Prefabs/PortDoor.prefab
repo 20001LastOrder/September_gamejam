@@ -371,6 +371,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fee8f9f748fa64887b7f5a7305ba33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 5.15, y: 3.69, z: 157.19}
+  destination: {x: 22.4, y: 3.2, z: 483.28}
   doorText: {fileID: 102396462071491592}
+  goldReq: 10
+  rubyReq: 5
+  IwantKeyButton: {fileID: 0}
+  _color: {r: 0.23602703, g: 0.4197532, b: 0.9811321, a: 0}
+  lastDoor: 0
   locked: 1

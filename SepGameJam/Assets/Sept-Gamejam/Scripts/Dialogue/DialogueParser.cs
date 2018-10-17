@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -30,7 +30,7 @@ public class DialogueParser : MonoBehaviour
     void Start()
     {
         string file = "Assets/Sept-Gamejam/Data/Dialogue";
-        string sceneNum = EditorSceneManager.GetActiveScene().name;
+        string sceneNum = SceneManager.GetActiveScene().name;
         sceneNum = Regex.Replace(sceneNum, "[^0-9]", "");
         file += sceneNum;
         file += ".txt";

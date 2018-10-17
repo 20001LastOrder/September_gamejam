@@ -43,11 +43,9 @@ public class NPCscript : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             // some text show the player how to interact
-            if (Input.GetKeyDown(KeyCode.E) && inEvent == false)
+            if (inEvent == false)
             {
-                
                 NPCEventManager.instance.TriggerEvent(stage);
-                
             }
         }
     }
