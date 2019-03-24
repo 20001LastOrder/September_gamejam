@@ -26,6 +26,11 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 	[SerializeField]
 	private GameObject _player;
 
+    [SerializeField]
+    private TreasureScript cube;
+
+    private Dictionary<NPCType, NPCscript> npcs;
+
 	[SerializeField]
 	private Camera _mainCamera;
 
@@ -55,6 +60,7 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
         }
 
         randomID = Random.Range(0, 100);
+        npcs = new Dictionary<NPCType, NPCscript>();
     }
 
     private void Start()
@@ -72,6 +78,11 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 		_score += points;
 	}
 
+    public void RegisterNpc(NPCType title, NPCscript npc)
+    {
+        npcs.Add(title, npc);
+    }
+
     public void ObtainKey()
     {
         hasKey = true;
@@ -88,8 +99,23 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
     public void LoseCube()
     {
+        cube.SetOwner(null);
         hasCube = false;
         _playGameUI.UpdateCube(false);
+    }
+    
+    public void DemonObtainCube()
+    {
+        cube.SetOwner(npcs[NPCType.Demon].gameObject);
+        StartCoroutine(npcs[NPCType.Demon].MoveTo(new Vector3(0, 50, 0)));
+        hasCube = false;
+        _playGameUI.UpdateCube(false);
+    }
+
+    public void UnlockFinalDoor()
+    {
+        GameObject obj = GameObject.Find("FinalDoor");
+        obj.GetComponent<DoorScript>().Unlock();
     }
 
 	public int GetScore() {
@@ -119,6 +145,7 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 	public void GameOver() {
 		_playGameUI.GameOver();
 		_player.SetActive(false);
+        cube.gameObject.SetActive(false);
 	}
 
 	public void IncreasePlayerLifeUI(float amount) {
@@ -182,9 +209,20 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
         return randomID;
     }
 
-    
+    public void UICreateSpellKeys(List<string> spell)
+    {
+        _playGameUI.CreateSpellKeys(spell);
+    }
 
-    
+    public void UIResetSpellKeys()
+    {
+        _playGameUI.ResetSpellKeys();
+    }
+
+    public void UIRemoveSpellKey()
+    {
+        _playGameUI.RemoveSpellKey();
+    }
 
 
 }

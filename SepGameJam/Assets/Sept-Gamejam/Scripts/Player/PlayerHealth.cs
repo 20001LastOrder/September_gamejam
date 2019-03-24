@@ -21,8 +21,8 @@ public class PlayerHealth : MonoBehaviour {
     public void LoseHeath(int healthToLose)
     {
         healthPoint -= healthToLose;
+        BumpBack();
 		GameFlowManager.Instance.DecreasePlayerLifeUI(healthToLose);
-		BumpBack();
 		if(healthPoint <= 0) {
 			GameFlowManager.Instance.GameOver();
 		}
@@ -32,6 +32,6 @@ public class PlayerHealth : MonoBehaviour {
     {
         // bump the player back with some force
         Vector3 dir = moveScript.GetBumpDirection();
-        rig.AddForce(dir * bumpForce, ForceMode.Impulse);
+        rig.AddForce(dir.normalized * bumpForce, ForceMode.Impulse);
     }
 }

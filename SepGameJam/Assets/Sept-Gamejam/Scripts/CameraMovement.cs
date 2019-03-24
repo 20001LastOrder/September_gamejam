@@ -42,14 +42,13 @@ public class CameraMovement : MonoBehaviour {
 	private void Update()
     {
         // if some key is pressed then switch the camera position to the other side
-        if (Input.GetKeyDown(KeyCode.R))
+        if (inRotation == false)
         {
-            switchStateOn = !switchStateOn;
-            cameraDistance *= -1;
-
-            if (inRotation == false)
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                
+                switchStateOn = !switchStateOn;
+                cameraDistance *= -1;
+           
                 StartCoroutine(RotateCamera());
             }
         }
@@ -60,9 +59,6 @@ public class CameraMovement : MonoBehaviour {
     {
         if (target != null)
         {
-            
-            
-
             Vector3 position = target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);
             
             transform.position = position;
@@ -96,9 +92,7 @@ public class CameraMovement : MonoBehaviour {
 
     private IEnumerator RotateCamera()
     {
-        // lock the procedure
         inRotation = true;
-
         float rotateAngle = 0;
 
         while (rotateAngle < 180)
@@ -121,7 +115,6 @@ public class CameraMovement : MonoBehaviour {
 
             yield return new WaitForEndOfFrame();
         }
-
         inRotation = false;
     }
 }

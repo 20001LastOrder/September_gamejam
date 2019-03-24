@@ -1,4 +1,4 @@
-;You woke up, realizing you were somewhere in the wood (press E to continue;;
+ ;You woke up, realizing you were somewhere in the wood (press E to continue;;
 Me;Seems like I'm lost, maybe I should find someone to ask for help (press SPACE to jump);;
 End;end;;
 
@@ -39,16 +39,16 @@ End;end;;
 Man;Hey, I see you have the treasure with you, so you truly are a lucky guy.;;
 Man;Now give me th... oh hahaha can I take a look please?;;
 Player;Sure, go ahead:line,41;Emmmm I'm not sure...:line,48
-;The man took the treasure from your hand, suddenly his look changed, becoming more evil and depraved...
+ ;The man took the treasure from your hand, suddenly his look changed, becoming more evil and depraved...;;
 Man;Thanks for the little help, my friend, and for being such a good pawn, ahahahaha!;;
 Man;That damn door is blocking my power and only the innocent people are able to find the key, and you did!;;
 Man;Now congradulations! Go ahead, enter that door and finish the game, outsider, I'm going to take what belongs to me.;;
 Man;This whole world, ahahahahaha!!!!;;
-;The man disappeared in the air, leaving only you and some gold you collected.;;
+ ;The man disappeared in the air, leaving only you and some gold you collected.;;
 End;endDoom;;
 Man;Don't be such a mood ruiner, of course I know it belongs to you, my friend, I will give it back to you right away.;;
 Man;And I also will tell you how to open this door with this thing;;
-Player;Alright:line,41;Emmmm somehow I don't want to...:line,51
+Player;Alright:line,41;Somehow I don't want to...:line,51
 Man;I will get you out of this world! YOU FOOL;;
 End;endBad;;
 

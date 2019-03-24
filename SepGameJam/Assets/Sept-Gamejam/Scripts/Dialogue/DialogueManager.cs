@@ -122,6 +122,7 @@ public class DialogueManager : MonoBehaviour
                 case "endDoom":
                     // the evil wins the cube
                     GameFlowManager.Instance.LoseCube();
+                    GameFlowManager.Instance.UnlockFinalDoor();
                     SetActive(false);
                     break;
                 case "endBad":

@@ -41,6 +41,7 @@ public class DoorScript : MonoBehaviour {
         }
 
         IwantKeyButton = GameObject.Find("I want the key now");
+        IwantKeyButton.GetComponent<Text>().enabled = false;
     }
 
     private void OnTriggerStay(Collider other)
@@ -96,6 +97,7 @@ public class DoorScript : MonoBehaviour {
     // reset the everything
     private void OnTriggerExit(Collider other)
     {
+        if (IwantKeyButton == null) return;
         IwantKeyButton.GetComponent<Text>().enabled = false;
         textRenderer.enabled = false;
     }
