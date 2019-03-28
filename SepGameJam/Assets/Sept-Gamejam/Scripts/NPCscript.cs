@@ -40,10 +40,6 @@ public class NPCscript : MonoBehaviour {
                 if (interactText.enabled) interactText.enabled = false;
                 DialogueManager.instance.nextLine = true;
             }
-            else
-            {
-                DialogueManager.instance.nextLine = false;
-            }
         }
 
         // move the npc to the next stage
@@ -88,7 +84,11 @@ public class NPCscript : MonoBehaviour {
 
     public void ZoominCamera()
     {
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        Transform cam = camera.transform;
         Debug.Log("zoom in the camera");
+        Vector3 dir = transform.forward;
+        StartCoroutine(ShiftCamera(cam.position, transform.position + dir * 25 + new Vector3(0, 7.5f, 0), cam, true));
     }
 
     public void Talk(int numLine)
@@ -100,7 +100,10 @@ public class NPCscript : MonoBehaviour {
     public void ZoomoutCamera()
     {
         Debug.Log("zoom out the camera");
-        
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        Transform cam = camera.transform;
+        Vector3 dest = CameraMovement.instance.GetCameraFollowPosition();
+        StartCoroutine(ShiftCamera(cam.position, dest, cam, false));
     }
 
     public IEnumerator MoveTo(Vector3 pos)
@@ -111,5 +114,17 @@ public class NPCscript : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
     }
-    
+
+    IEnumerator ShiftCamera(Vector3 from, Vector3 to, Transform cam, bool zoomIn)
+    {
+        if (zoomIn) CameraMovement.instance.inEvent = true;
+        while ((from - to).sqrMagnitude >= 0.3f)
+        {
+            cam.position = Vector3.MoveTowards(from, to, 0.5f);
+            from = cam.transform.position;
+            yield return new WaitForEndOfFrame();
+        }
+        if (!zoomIn) CameraMovement.instance.inEvent = false; 
+    }
+
 }

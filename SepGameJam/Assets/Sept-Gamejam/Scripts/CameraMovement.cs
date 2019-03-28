@@ -18,6 +18,7 @@ public class CameraMovement : MonoBehaviour {
     public bool inRotation = false;
     [HideInInspector]
     public bool switchStateOn = false;
+    public bool inEvent = false;
 
     private Vector3 direction;
     
@@ -74,8 +75,9 @@ public class CameraMovement : MonoBehaviour {
             // if is not rotating around the player the camera needs to follow the player
             if (inRotation == false)
             {
+                yield return new WaitUntil(() => inEvent == false);
                 // get a location beside the player that the camera need to be
-                Vector3 newPosition = target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);
+                Vector3 newPosition = GetCameraFollowPosition();
 
                 // the cmaera follow is speed is determined by the distance to the location
                 Vector3 direction = newPosition - transform.position;
@@ -88,6 +90,11 @@ public class CameraMovement : MonoBehaviour {
 
             yield return new WaitForFixedUpdate();
         }
+    }
+
+    public Vector3 GetCameraFollowPosition()
+    {
+        return target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);
     }
 
     private IEnumerator RotateCamera()

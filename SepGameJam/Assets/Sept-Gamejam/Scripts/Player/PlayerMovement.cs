@@ -22,10 +22,10 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    // Use this for initialization
-    void Start () {
-        
-	}
+    public void Initialize()
+    {
+
+    }
 
     private void Update()
     {

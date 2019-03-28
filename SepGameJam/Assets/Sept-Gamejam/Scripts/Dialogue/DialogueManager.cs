@@ -23,6 +23,10 @@ public class DialogueManager : MonoBehaviour
     private NPCscript npc;
     public bool nextLine;
 
+    private string trigger;
+    private bool hasTrigger;
+    private bool intro = false;
+
     public Text dialogueBox;
     public Text nameBox;
     public GameObject choiceBox;
@@ -58,12 +62,45 @@ public class DialogueManager : MonoBehaviour
         //aud.GetComponent<AudioSource>();
     }
 
+    public void StartIntro()
+    {
+        intro = true;
+        nextLine = true;
+        Show(0);
+    }
+
+    private void Update()
+    {
+        if (intro)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                nextLine = true;
+            }
+        }
+
+        if (!isTyping && hasTrigger)
+        {
+            switch (trigger)
+            {
+                case "EnterMainScene":
+                    GameFlowManager.Instance.EnterMainScene();
+                    break;
+                default:
+                    break;
+            }
+            
+            hasTrigger = false;
+            trigger = "";
+        }
+    }
+
+
     public void Show(int numLine)
     {
         Debug.Log(numLine);
         lineNum = numLine;
         
-
         StartCoroutine(Dialogue());
     }
 
@@ -137,14 +174,37 @@ public class DialogueManager : MonoBehaviour
             }
             
         }
+        else if (parser.GetName(lineNum) == "Narrative")
+        {
+            playerTalking = false;
+            ClearButtons();
+            characterName = " ";
+            dialogue = parser.GetContent(lineNum);
+           
+            //dialogue = dialogue.Replace ('$', '\n');
+            StartCoroutine(TypeWriterEffect());
+
+            trigger = parser.GetTrigger(lineNum);
+            if (trigger != "")
+            {
+                hasTrigger = true;
+            }
+        }
         else
         {
             playerTalking = false;
             ClearButtons();
             characterName = parser.GetName(lineNum);
             dialogue = parser.GetContent(lineNum);
+           
             //dialogue = dialogue.Replace ('$', '\n');
             StartCoroutine(TypeWriterEffect());
+
+            trigger = parser.GetTrigger(lineNum);
+            if (trigger != "")
+            {
+                hasTrigger = true;
+            }
         }
     }
 

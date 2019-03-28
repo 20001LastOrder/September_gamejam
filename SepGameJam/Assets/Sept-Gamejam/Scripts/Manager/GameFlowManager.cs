@@ -124,8 +124,9 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
 	public void StartGame() {
 		_player.SetActive(true);
-		//switch to main camera
-		_mainCamera.gameObject.SetActive(true);
+        //switch to main camera
+        _mainCamera.gameObject.SetActive(true);
+        DialogueManager.instance.StartIntro();
 	}
 
 	public void Pause() {
@@ -224,5 +225,8 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
         _playGameUI.RemoveSpellKey();
     }
 
-
+    public void EnterMainScene()
+    {
+        _playGameUI.UIEnterMainScene();
+    }
 }

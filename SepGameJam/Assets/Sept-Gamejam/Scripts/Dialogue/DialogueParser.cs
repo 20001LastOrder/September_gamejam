@@ -15,12 +15,14 @@ public class DialogueParser : MonoBehaviour
     {
         public string name;
         public string content;
+        public string extra;
         public string[] options;
 
-        public DialogueLine(string Name, string Content)
+        public DialogueLine(string Name, string Content, string Extra)
         {
             name = Name;
             content = Content;
+            extra = Extra;
             options = new string[0];
         }
     }
@@ -55,7 +57,7 @@ public class DialogueParser : MonoBehaviour
                     string[] lineData = line.Split(';');
                     if (lineData[0] == "Player")
                     {
-                        DialogueLine lineEntry = new DialogueLine(lineData[0], "");
+                        DialogueLine lineEntry = new DialogueLine(lineData[0], "", "");
                         lineEntry.options = new string[lineData.Length - 1];
 
                         for (int i = 1; i < lineData.Length; i++)
@@ -66,12 +68,12 @@ public class DialogueParser : MonoBehaviour
                     }
                     else if (lineData[0] == "")
                     {
-                        DialogueLine lineEntry = new DialogueLine(lineData[0], "");
+                        DialogueLine lineEntry = new DialogueLine("", "", "");
                         lines.Add(lineEntry);
                     }
                     else
                     {
-                        DialogueLine lineEntry = new DialogueLine(lineData[0], lineData[1]);
+                        DialogueLine lineEntry = new DialogueLine(lineData[0], lineData[1], lineData[2]);
                         lines.Add(lineEntry);
                     }
                 }
@@ -92,6 +94,14 @@ public class DialogueParser : MonoBehaviour
     {
         if (lineNumber < lines.Count)
             return lines[lineNumber].content;
+
+        return "";
+    }
+
+    public string GetTrigger(int lineNumber)
+    {
+        if (lineNumber < lines.Count)
+            return lines[lineNumber].extra;
 
         return "";
     }

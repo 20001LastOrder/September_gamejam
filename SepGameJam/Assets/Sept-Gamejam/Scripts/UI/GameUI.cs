@@ -24,6 +24,9 @@ public class GameUI : MonoBehaviour {
     private Image _CubeImage;
 
     [SerializeField]
+    private Image _LoadingImage;
+
+    [SerializeField]
 	private GameObject _playerLifeParent;
 	[SerializeField]
 	private GameObject _playerLifePrefab;
@@ -188,6 +191,11 @@ public class GameUI : MonoBehaviour {
             HidePanel();
             GameFlowManager.Instance.Lose();
         }
+    }
+
+    public void UIEnterMainScene()
+    {
+        _LoadingImage.gameObject.SetActive(false);
     }
 
     /*

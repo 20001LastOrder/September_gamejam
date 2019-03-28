@@ -13,9 +13,6 @@ public class DoorScript : MonoBehaviour {
     public GameObject IwantKeyButton;
 
     [SerializeField]
-    private Color _color;
-
-    [SerializeField]
     private bool lastDoor;
 
     public bool locked;
@@ -25,12 +22,12 @@ public class DoorScript : MonoBehaviour {
 
     private void Start()
     {
-        var materials = gameObject.GetComponentsInChildren<MeshRenderer>();
-        for (int i=0; i < materials.Length; i++)
-        {
-            materials[i].material.SetColor("_EmissionColor", _color * 2.2f);
+        //var materials = gameObject.GetComponentsInChildren<MeshRenderer>();
+        //for (int i=0; i < materials.Length; i++)
+        //{
+        //    materials[i].material.SetColor("_EmissionColor", _color * 2.2f);
             
-        }
+        //}
 
         textRenderer = transform.GetChild(2).gameObject.GetComponent<MeshRenderer>();
         textRenderer.enabled = false;
