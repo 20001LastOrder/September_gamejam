@@ -31,14 +31,14 @@ public class Collectable : MonoBehaviour {
             GameObject.Destroy(this.gameObject);
 			GameFlowManager.Instance.AddScore(points);
 
-            if (this.gameObject.tag == "Key")
+            if (this.gameObject.tag == "Gold")
             {
-
+                GameFlowManager.Instance.UpdateRuby(0);
             }
 
-            if (this.gameObject.tag == "Cube")
+            if (this.gameObject.tag == "Ruby")
             {
-
+                GameFlowManager.Instance.UpdateRuby(1);
             }
 		}
     }

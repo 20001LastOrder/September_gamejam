@@ -9,10 +9,22 @@ public class GameUI : MonoBehaviour {
 	private Text _playerScoreText;
 
     [SerializeField]
+    private Text _playerGoldCount;
+
+    [SerializeField]
+    private Text _playerRubyCount;
+
+    [SerializeField]
+    private GameObject _Panel;
+
+    [SerializeField]
     private Image _KeyImage;
 
     [SerializeField]
     private Image _CubeImage;
+
+    [SerializeField]
+    private Image _LoadingImage;
 
     [SerializeField]
 	private GameObject _playerLifeParent;
@@ -30,15 +42,32 @@ public class GameUI : MonoBehaviour {
 	[SerializeField]
 	private float _scoreRollingUpTime = 2.0f;
 
-	private const string _defaultScoreText = "Socre: ";
+    private Queue<Text> spellText;
+    [SerializeField]
+    private GameObject spellKeyPrefab;
+
+    private const string _defaultScoreText = "Socre: ";
 
 	private void Awake() {
 		_playerLifes = new Stack<Image>();
+        spellText = new Queue<Text>();
 	}
 
 	public void UpdateScoreText(int originalScore, int increment) {
 		StartCoroutine(ScrollUpPoint(_playerScoreText, originalScore, originalScore+increment, _scoreRollingUpTime, _defaultScoreText));
 	}
+
+    public void UpdateGoldCount(int current)
+    {
+        
+        _playerGoldCount.text = "Gold: " + current;
+    }
+
+    public void UpdateRubyCount(int current)
+    {
+        
+        _playerRubyCount.text = "Ruby: " + current;
+    }
 
 	public void DecreaseLife(float life) {
 		if(life > _playerLifes.Count) {
@@ -100,6 +129,12 @@ public class GameUI : MonoBehaviour {
 		_gameOver.SetActive(true);
 	}
 
+    public void Win()
+    {
+        _gameOver.GetComponentInChildren<Text>().text = "You win";
+        _gameOver.SetActive(true);
+    }
+
 	private void CreateFullLifes(float fillAmount) {
 		var heart = Instantiate(_playerLifePrefab, _playerLifeParent.transform);
 		heart.transform.localPosition = new Vector3(_playerLifeDistance * _playerLifes.Count, 0, 0);
@@ -126,4 +161,82 @@ public class GameUI : MonoBehaviour {
 		}
 		text.text = prefix + end.ToString();
 	}
+
+    public void ShowPanel()
+    {
+        _Panel.SetActive(true);
+    }
+
+    public void HidePanel()
+    {
+        _Panel.SetActive(false);
+    }
+
+    public void GetKey()
+    {
+        StartCoroutine(Request.Get("https://casual-development-dogdays.c9users.io/" + GameFlowManager.Instance.GetRandomId() + "/key", CheckKey));
+    }
+
+    private void CheckKey(Dictionary<string, string> res)
+    {
+        string keyAcquired;
+        if (!res.TryGetValue("key", out keyAcquired)) return;
+        if (Convert.ToBoolean(keyAcquired))
+        {
+            HidePanel();
+            GameFlowManager.Instance.ObtainKey();
+        }
+        else
+        {
+            HidePanel();
+            GameFlowManager.Instance.Lose();
+        }
+    }
+
+    public void UIEnterMainScene()
+    {
+        _LoadingImage.gameObject.SetActive(false);
+    }
+
+    /*
+     * Spell Functions
+     */
+    public void CreateSpellKeys(List<string> spell)
+    {
+        float width = (float)1024 * 4 / 5;
+        float bandWidth = width / spell.Count;
+        float startPointX = -(width / 2) + bandWidth / 2 ;
+        float startPointY = (float)768 * 3 / 5 / 2;
+        Debug.Log("spell count" + spell.Count);
+        int i = 0;
+        while (i < spell.Count)
+        {
+            string s = spell[i];
+            GameObject obj = Instantiate(spellKeyPrefab, gameObject.transform);
+            obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(startPointX + i * bandWidth, -startPointY);
+            Text t = obj.GetComponent<Text>();
+            t.text = s;
+            spellText.Enqueue(t);
+            i++;
+        }
+    }
+
+    public void RemoveSpellKey()
+    {
+        Destroy(spellText.Peek().gameObject);
+        spellText.Dequeue();
+
+    }
+
+    public void ResetSpellKeys()
+    {
+        while (spellText.Count > 0)
+        {
+            // some animation or particle effect
+
+            // destroy the object
+            Destroy(spellText.Peek().gameObject);
+            spellText.Dequeue();
+        }
+    }
 }

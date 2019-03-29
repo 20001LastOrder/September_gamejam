@@ -1,15 +1,15 @@
-;You woke up, realizing you were somewhere in the wood;;
-Me;Seems like I'm lost, maybe I should find someone to ask for help;;
+Narrative;You woke up, realizing you were somewhere in the wood (press E to continue);EnterMainScene;
+Me;Seems like I'm lost, maybe I should find someone to ask for help (press SPACE to jump, press R for surprise >O<);;
 End;end;;
 
 Man in the Wood;Hey advanturer, glad to see you here.;;
-Man in the Wood;You must have awared that this is not just a flat world.;;
+Man in the Wood;You must have noticed that this is not just a flat world.;;
 Man in the Wood;Do you need me to remind you again?;;
 Player;Yes:line,8;No:line,10
 Man in the Wood;Alright, press R to change your view so you can see different sides;;
 Man in the Wood;You might find something new as you go on;;
 Man in the Wood;Alright. I heard there is a magical cube hidden here, very powerful;;
-Man in the Wood;Many people trying to find it but reached nothing in the end;;
+Man in the Wood;Many people tried to find it but reached nothing in the end;;
 Player;I will find it:line,13;Nah I'm in a hurry:line,15
 Man in the Wood;Good luck! We will meet again.;;
 End;end1;;
@@ -30,25 +30,25 @@ End;end;;
 Man;Oh you see it's locked right. I bet you must want to enter it.;;
 Man;They say it leads to another world, a better world, most people who entered never want to come back.;;
 Player;How do I enter?:line,32
-Man;As what I heard, you need ten gold and five ruby. But...;;
-Player;But what?:line,34;Thanks, on my way:line,
+Man;From what I heard, you need ten gold rubies and five red rubies. But...;;
+Player;But what?:line,35;Thanks, on my way:line,34
 End;end;;
-Man;But if you have The Cube, you can unlock it at no other cost. Good luck!;;
+Man;But if you have The Cube, you can unlock it at no other cost.;;
 End;end;;
 
 Man;Hey, I see you have the treasure with you, so you truly are a lucky guy.;;
 Man;Now give me th... oh hahaha can I take a look please?;;
 Player;Sure, go ahead:line,41;Emmmm I'm not sure...:line,48
-;The man took the treasure from your hand, suddenly his look changed, becoming more evil and depraved...
+Narrative;The man took the treasure from your hand, suddenly his look changed, becoming more evil and depraved...;;
 Man;Thanks for the little help, my friend, and for being such a good pawn, ahahahaha!;;
 Man;That damn door is blocking my power and only the innocent people are able to find the key, and you did!;;
 Man;Now congradulations! Go ahead, enter that door and finish the game, outsider, I'm going to take what belongs to me.;;
 Man;This whole world, ahahahahaha!!!!;;
-;The man disappeared in the air, leaving only you and some gold you collected.;;
+Narrative;The man disappeared in the air, leaving only you and some gold you collected.;;
 End;endDoom;;
 Man;Don't be such a mood ruiner, of course I know it belongs to you, my friend, I will give it back to you right away.;;
 Man;And I also will tell you how to open this door with this thing;;
-Player;Alright:line,41;Emmmm somehow I don't want to...:line,51
-Man;Alright, I guess I don't have the luck. Leave me alone.;;
-End;end;;
+Player;Alright:line,41;Somehow I don't want to...:line,51
+Man;I will get you out of this world! YOU FOOL;;
+End;endBad;;
 

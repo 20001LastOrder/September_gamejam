@@ -6,26 +6,36 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour {
 
     public float speed = 2;
-    
-    
+    public AudioSource playerAud;
+    public AudioClip audWalk;
+
+    private PlayerJump jumpScript;
     private Animator anim;
     protected Rigidbody rig;
+    private int side = 0;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         rig = GetComponent<Rigidbody>();
+        jumpScript = GetComponent<PlayerJump>();
     }
 
 
-    // Use this for initialization
-    void Start () {
-        
-	}
+    public void Initialize()
+    {
+
+    }
 
     private void Update()
     {
+        //Debug.Log(Input.inputString);
         anim.SetFloat("Velocity", rig.velocity.y);
+
+        if (jumpScript.grounded())
+        {
+            playerAud.clip = audWalk;
+        }
     }
 
 
@@ -53,21 +63,27 @@ public class PlayerMovement : MonoBehaviour {
 
         // During the movement, if it's on the left side of the map we need to swtich the controls
         // which means left == right
-        if (CameraMovement.instance.switchStateOn == false)
-        {
-            Vector3 newPosition = transform.position + new Vector3(0, 0, h);
-            transform.position = newPosition;
-            Turn(h, 0);
-        }
-        else
-        {
-            Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
-            transform.position = newPosition;
-            Turn(-h, 0);
-        }
+        Vector3 newPosition = transform.position + new Vector3(0, 0, h);
+        transform.position = newPosition;
+        Turn(h, 0);
+
+        //if (CameraMovement.instance.switchStateOn == false)
+        //{
+        //    Vector3 newPosition = transform.position + new Vector3(0, 0, h);
+        //    transform.position = newPosition;
+        //    //if (playerAud.clip == audWalk && h>0) playerAud.Play();
+        //    Turn(h, 0);
+        //}
+        //else
+        //{
+        //    Vector3 newPosition = transform.position + new Vector3(0, 0, -h);
+        //    transform.position = newPosition;
+        //    //if (playerAud.clip == audWalk && h>0) playerAud.Play();
+        //    Turn(-h, 0);
+        //}
     }
 
-    
+
 
     private void Turn(float h, float v)
     {
@@ -123,7 +139,6 @@ public class PlayerMovement : MonoBehaviour {
     //        anim.SetBool("onGround", true);
     //    }
     //}
-
    
 
     public Vector3 GetBumpDirection()

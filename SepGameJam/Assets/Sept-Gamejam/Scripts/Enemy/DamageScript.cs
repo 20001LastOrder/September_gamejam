@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class DamageScript : MonoBehaviour {
 
-    public GameObject player;
+    public GameObject DeathEffectPrefab;
 
-    private PlayerHealth healthScript;
     private float timer;
     private bool locker;
 
 	// Use this for initialization
 	void Start () {
-        healthScript = player.GetComponent<PlayerHealth>();
         timer = 0;
+        if (EnemyManager.Instance)
+        {
+            EnemyManager.Instance.RegisterEnemy(gameObject);
+        }
 	}
 
-    void Update()
+    public void GetHitBySpell()
     {
-        
+        // play effect
+        // spawn death effect
+        EnemyManager.Instance.UnregisterEnemy(gameObject);
+        Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     // detect touch on health
@@ -27,19 +33,21 @@ public class DamageScript : MonoBehaviour {
         if (collision.gameObject.tag == "Player" && locker == false)
         {
 
-            StartCoroutine(DamagePlayer());     
+            StartCoroutine(DamagePlayer(collision.gameObject));     
             
         }
     }
 
-    IEnumerator DamagePlayer()
+    IEnumerator DamagePlayer(GameObject player)
     {
         locker = true;
 
-        healthScript.LoseHeath(1);
+        player.GetComponent<PlayerHealth>().LoseHeath(1);
+        gameObject.GetComponent<BoxCollider>().enabled = false;
 
         yield return new WaitForSeconds(3);
 
+        gameObject.GetComponent<BoxCollider>().enabled = true;
         locker = false;
     }
     

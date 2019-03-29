@@ -82,7 +82,6 @@ public class NPCEventManager : MonoBehaviour {
                 GreetPlayer.instance.Execute(npc);
                 break;
             case 1:
-                
                 MeetPlayerAtTheEnd.instance.Enter(npc);
                 MeetPlayerAtTheEnd.instance.Execute(npc);
                 break;

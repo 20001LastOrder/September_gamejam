@@ -8,15 +8,6 @@ public class FallDetecter : MonoBehaviour {
     public Vector3 checkPoint;
     public float height;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +19,7 @@ public class FallDetecter : MonoBehaviour {
 			}
 			//Application.OpenURL("www.google.com");
             player.position = checkPoint + new Vector3(0f, height, 0f);
+            player.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
 }

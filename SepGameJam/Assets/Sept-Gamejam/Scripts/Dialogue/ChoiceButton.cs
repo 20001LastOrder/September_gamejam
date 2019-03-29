@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class ChoiceButton : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class ChoiceButton : MonoBehaviour
         }
         else if (command == "scene")
         {
-            EditorSceneManager.LoadScene("Scene" + commandModifier);
+            SceneManager.LoadScene("Scene" + commandModifier);
         }
     }
 }

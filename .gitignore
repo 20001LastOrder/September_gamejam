@@ -1,4 +1,4 @@
-[Ll]ibrary/
+Library/
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
@@ -41,3 +41,4 @@ SepGameJam/Logs/
 SepGameJam/Assets/KriptoFX
 SepGameJam/Assets/KriptoFX.meta
 SepGameJam/ProjectSettings/VFXManager.asset
+SepGameJam/Assets/Sept-Gamejam/Scenes/SampleScene/LightingData.asset

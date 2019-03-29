@@ -23,6 +23,10 @@ public class DialogueManager : MonoBehaviour
     private NPCscript npc;
     public bool nextLine;
 
+    private string trigger;
+    private bool hasTrigger;
+    private bool intro = false;
+
     public Text dialogueBox;
     public Text nameBox;
     public GameObject choiceBox;
@@ -58,12 +62,45 @@ public class DialogueManager : MonoBehaviour
         //aud.GetComponent<AudioSource>();
     }
 
+    public void StartIntro()
+    {
+        intro = true;
+        nextLine = true;
+        Show(0);
+    }
+
+    private void Update()
+    {
+        if (intro)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                nextLine = true;
+            }
+        }
+
+        if (!isTyping && hasTrigger)
+        {
+            switch (trigger)
+            {
+                case "EnterMainScene":
+                    GameFlowManager.Instance.EnterMainScene();
+                    break;
+                default:
+                    break;
+            }
+            
+            hasTrigger = false;
+            trigger = "";
+        }
+    }
+
+
     public void Show(int numLine)
     {
         Debug.Log(numLine);
         lineNum = numLine;
-        this.gameObject.GetComponent<Image>().enabled = true;
-
+        
         StartCoroutine(Dialogue());
     }
 
@@ -76,6 +113,7 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("next line before = " + nextLine);
             yield return new WaitUntil(() => nextLine == true);
+            this.gameObject.GetComponent<Image>().enabled = true;
 
             if (playerTalking == false)
             {
@@ -119,7 +157,15 @@ public class DialogueManager : MonoBehaviour
                     SetActive(false);
                     break;
                 case "endDoom":
+                    // the evil wins the cube
                     GameFlowManager.Instance.LoseCube();
+                    GameFlowManager.Instance.UnlockFinalDoor();
+                    SetActive(false);
+                    break;
+                case "endBad":
+                    // go to the website
+                    Application.OpenURL("https://casual-development-dogdays.c9users.io/dead");
+                    GameFlowManager.Instance.Lose();
                     SetActive(false);
                     break;
                 default:
@@ -128,14 +174,37 @@ public class DialogueManager : MonoBehaviour
             }
             
         }
+        else if (parser.GetName(lineNum) == "Narrative")
+        {
+            playerTalking = false;
+            ClearButtons();
+            characterName = " ";
+            dialogue = parser.GetContent(lineNum);
+           
+            //dialogue = dialogue.Replace ('$', '\n');
+            StartCoroutine(TypeWriterEffect());
+
+            trigger = parser.GetTrigger(lineNum);
+            if (trigger != "")
+            {
+                hasTrigger = true;
+            }
+        }
         else
         {
             playerTalking = false;
             ClearButtons();
             characterName = parser.GetName(lineNum);
             dialogue = parser.GetContent(lineNum);
+           
             //dialogue = dialogue.Replace ('$', '\n');
             StartCoroutine(TypeWriterEffect());
+
+            trigger = parser.GetTrigger(lineNum);
+            if (trigger != "")
+            {
+                hasTrigger = true;
+            }
         }
     }
 
