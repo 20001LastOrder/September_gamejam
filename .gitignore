@@ -37,3 +37,7 @@ sysinfo.txt
 
 Assets/StreamingAssets/   
 SepGameJam/.vs/SepGameJam/v15/Server/sqlite3/storage.ide
+SepGameJam/Logs/
+SepGameJam/Assets/KriptoFX
+SepGameJam/Assets/KriptoFX.meta
+SepGameJam/ProjectSettings/VFXManager.asset
