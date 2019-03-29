@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour {
 	private void Update()
     {
         // if some key is pressed then switch the camera position to the other side
-        if (inRotation == false)
+        if (inRotation == false && inEvent == false)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {

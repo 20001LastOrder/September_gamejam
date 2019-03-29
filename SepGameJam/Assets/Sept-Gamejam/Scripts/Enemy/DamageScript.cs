@@ -12,14 +12,19 @@ public class DamageScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         timer = 0;
+        if (EnemyManager.Instance)
+        {
+            EnemyManager.Instance.RegisterEnemy(gameObject);
+        }
 	}
 
     public void GetHitBySpell()
     {
         // play effect
-
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
-        Destroy(gameObject, 2);
+        // spawn death effect
+        EnemyManager.Instance.UnregisterEnemy(gameObject);
+        Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     // detect touch on health

@@ -12,16 +12,20 @@ public class CubeFireBall : MonoBehaviour
         firePower = Powerlevel;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Enemy")
+        if (collision.gameObject.tag == "Player") return;
+
+        if (collision.gameObject.tag == "Enemy")
         {
-            other.gameObject.GetComponent<DamageScript>().GetHitBySpell();
+            collision.gameObject.GetComponent<DamageScript>().GetHitBySpell();
         }
 
         // explosion effect
 
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.GetComponent<PKFxFX>().enabled = false;
         Destroy(gameObject, 2f);
     }
+
+    
 }

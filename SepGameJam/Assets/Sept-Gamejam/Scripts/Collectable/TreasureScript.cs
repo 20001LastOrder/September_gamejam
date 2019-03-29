@@ -189,8 +189,9 @@ public class TreasureScript : MonoBehaviour {
         GameObject target = EnemyManager.Instance.FindCloestEnemyTarget(gameObject, shootingRangeWidth, shootingRangeLength);
         // shoot the spell (fireball or beam or something)
         Vector3 targetDir;
-        if (target == null) targetDir = owner.transform.forward;
-        else targetDir = (target.transform.position - transform.position).normalized;
+        if (target == null) targetDir = transform.forward;
+        else targetDir = (target.transform.position + new Vector3(0, 3, 0) - transform.position).normalized;
+        Debug.Log(target);
 
         GameObject fireBall = Instantiate(SpellPrefab, transform.position + targetDir * 0.2f, Quaternion.identity);
         fireBall.GetComponent<CubeFireBall>().SetFirePower(timer);
