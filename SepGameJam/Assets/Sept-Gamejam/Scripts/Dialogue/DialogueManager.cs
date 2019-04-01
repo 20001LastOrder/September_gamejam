@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     //not sure if I need it
     public bool playerTalking;
     public bool hasChoice = false;
+    [SerializeField]
     private bool isTyping;
     public bool isActive;
     private NPCscript npc;
@@ -32,6 +33,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject choiceBox;
     public AudioSource aud;
     public AudioClip typeSound;
+
+    private Coroutine cur_Coroutine;
+    private float last;
 
     private void Awake()
     {
@@ -75,7 +79,19 @@ public class DialogueManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                nextLine = true;
+                if (!isTyping && Time.time - last > 0.5f)
+                {
+                    nextLine = true;
+                }
+                else if (isTyping)
+                {
+                    StopCoroutine(cur_Coroutine);
+                    dialogueBox.text = dialogue;
+                    Debug.Log(dialogue);
+                    isTyping = false;
+                    nextLine = false;
+                    last = Time.time;
+                }
             }
         }
 
@@ -112,23 +128,24 @@ public class DialogueManager : MonoBehaviour
         while (isActive)
         {
             Debug.Log("next line before = " + nextLine);
-            yield return new WaitUntil(() => nextLine == true);
-            this.gameObject.GetComponent<Image>().enabled = true;
-
-            if (playerTalking == false)
+            //yield return new WaitUntil(() => nextLine == true);
+            if (nextLine)
             {
-                nextLine = true;
+                gameObject.GetComponent<Image>().enabled = true;
 
-                ShowDialogue();
+                if (playerTalking == false)
+                {
+                    ShowDialogue();
 
-                lineNum++;
+                    lineNum++;
+                }
+                Debug.Log("next line = " + nextLine);
+
+                UpdateUI();
+
+                nextLine = false;
             }
-            Debug.Log("next line = " + nextLine);
-
-            UpdateUI();
-
-            nextLine = false;
-                     
+            yield return new WaitForEndOfFrame();
         }
 
         npc.EndState();
@@ -182,7 +199,7 @@ public class DialogueManager : MonoBehaviour
             dialogue = parser.GetContent(lineNum);
            
             //dialogue = dialogue.Replace ('$', '\n');
-            StartCoroutine(TypeWriterEffect());
+            cur_Coroutine = StartCoroutine(TypeWriterEffect());
 
             trigger = parser.GetTrigger(lineNum);
             if (trigger != "")
@@ -196,9 +213,9 @@ public class DialogueManager : MonoBehaviour
             ClearButtons();
             characterName = parser.GetName(lineNum);
             dialogue = parser.GetContent(lineNum);
-           
+
             //dialogue = dialogue.Replace ('$', '\n');
-            StartCoroutine(TypeWriterEffect());
+            cur_Coroutine = StartCoroutine(TypeWriterEffect());
 
             trigger = parser.GetTrigger(lineNum);
             if (trigger != "")
@@ -262,12 +279,12 @@ public class DialogueManager : MonoBehaviour
         for (int i = 0; i < dialogue.Length + 1; i++)
         {
             dialogueBox.text = dialogue.Substring(0, i);
+            Debug.Log("typing typing");
             //aud.clip = typeSound;
             //aud.Play();
             yield return new WaitForSeconds(delayTime);
         }
         isTyping = false;
-        StopCoroutine(TypeWriterEffect());
     }
 
     public void SetActive(bool b)
@@ -275,7 +292,7 @@ public class DialogueManager : MonoBehaviour
         if (b == false)
         {
             this.gameObject.GetComponent<Image>().enabled = false;
-            Debug.Log("reset buttons and text");
+            //Debug.Log("reset buttons and text");
             playerTalking = false;
             hasChoice = false;
             nextLine = false;

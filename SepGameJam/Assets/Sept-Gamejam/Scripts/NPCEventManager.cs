@@ -117,7 +117,7 @@ public class NPCEventManager : MonoBehaviour {
 
         public override void Enter(NPCscript npc)
         {
-            npc.ZoominCamera();
+            npc.ZoominCamera(1);
         }
 
         public override void Execute(NPCscript npc)
@@ -161,7 +161,7 @@ public class NPCEventManager : MonoBehaviour {
         public override void Enter(NPCscript npc)
         {
             
-            npc.ZoominCamera();
+            npc.ZoominCamera(1);
         }
 
         public override void Execute(NPCscript npc)

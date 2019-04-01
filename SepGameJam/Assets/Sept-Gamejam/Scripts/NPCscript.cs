@@ -18,8 +18,11 @@ public class NPCscript : MonoBehaviour {
     private NPCType role;
 
     public int stage = 0;
+    public Vector3 secondStagePosition;
 
     public Text interactText;
+
+    private GameObject player;
 
     private void Start()
     {
@@ -29,6 +32,8 @@ public class NPCscript : MonoBehaviour {
             GameFlowManager.Instance.RegisterNpc(NPCType.Demon, GetComponent<NPCscript>());
             Debug.Log("successfully register demon to GameManager");
         }
+
+        
     }
 
     private void Update()
@@ -38,7 +43,7 @@ public class NPCscript : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.E) && inEvent == true)
             {
                 if (interactText.enabled) interactText.enabled = false;
-                DialogueManager.instance.nextLine = true;
+                //DialogueManager.instance.nextLine = true;
             }
         }
 
@@ -47,7 +52,7 @@ public class NPCscript : MonoBehaviour {
         {
             if (GameObject.Find("Player1").transform.position.z > 110)
             {
-                transform.position = new Vector3(20, 5.61f, 355);
+                transform.position = secondStagePosition;
                 stage = 1;
             }
         }
@@ -57,6 +62,7 @@ public class NPCscript : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
+            if (!player) player = other.gameObject;
             // some text show the player how to interact
             interactText.enabled = true;
             if (inEvent == false)
@@ -82,11 +88,15 @@ public class NPCscript : MonoBehaviour {
         NPCEventManager.instance.Reset();
     }
 
-    public void ZoominCamera()
+    public void ZoominCamera(int facing)
     {
+        //if (CameraMovement.instance.side != facing)
+        //{
+        //    StartCoroutine(CameraMovement.instance.RotateCamera());
+        //}
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         Transform cam = camera.transform;
-        Debug.Log("zoom in the camera");
+        //Debug.Log("zoom in the camera");
         Vector3 dir = transform.forward;
         StartCoroutine(ShiftCamera(cam.position, transform.position + dir * 25 + new Vector3(0, 7.5f, 0), cam, true));
     }
@@ -99,7 +109,7 @@ public class NPCscript : MonoBehaviour {
 
     public void ZoomoutCamera()
     {
-        Debug.Log("zoom out the camera");
+        //Debug.Log("zoom out the camera");
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
         Transform cam = camera.transform;
         Vector3 dest = CameraMovement.instance.GetCameraFollowPosition();
@@ -117,13 +127,17 @@ public class NPCscript : MonoBehaviour {
 
     IEnumerator ShiftCamera(Vector3 from, Vector3 to, Transform cam, bool zoomIn)
     {
+        yield return new WaitUntil(() => CameraMovement.instance.inRotation == false);
+
         if (zoomIn) CameraMovement.instance.inEvent = true;
-        while ((from - to).sqrMagnitude >= 0.3f)
+        while ((from - to).sqrMagnitude >= 0.1f)
         {
-            cam.position = Vector3.MoveTowards(from, to, 0.5f);
+            cam.position = Vector3.MoveTowards(from, to, 1.5f);
             from = cam.transform.position;
+            cam.LookAt(player.transform);
             yield return new WaitForEndOfFrame();
         }
+        cam.transform.position = to;
         if (!zoomIn) CameraMovement.instance.inEvent = false; 
     }
 

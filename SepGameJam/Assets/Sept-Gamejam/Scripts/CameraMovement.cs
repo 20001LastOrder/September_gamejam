@@ -19,8 +19,11 @@ public class CameraMovement : MonoBehaviour {
     [HideInInspector]
     public bool switchStateOn = false;
     public bool inEvent = false;
+    public int side = 0;
 
     private Vector3 direction;
+    private Transform spellFollowTarget;
+    private Transform lookAtTarget;
     
     private void Awake()
     {
@@ -34,7 +37,8 @@ public class CameraMovement : MonoBehaviour {
     }
 
 	private void OnEnable() {
-		//Restart corotine when the camera is activated(go back from pause menu)
+        //Restart corotine when the camera is activated(go back from pause menu)
+        side = 0;
 		StartCoroutine(FollowCamera());
 	}
 
@@ -73,9 +77,8 @@ public class CameraMovement : MonoBehaviour {
         while (true)
         {
             // if is not rotating around the player the camera needs to follow the player
-            if (inRotation == false)
+            if (inRotation == false && inEvent == false)
             {
-                yield return new WaitUntil(() => inEvent == false);
                 // get a location beside the player that the camera need to be
                 Vector3 newPosition = GetCameraFollowPosition();
 
@@ -85,7 +88,7 @@ public class CameraMovement : MonoBehaviour {
 
                 // move towards the location
                 transform.position = Vector3.MoveTowards(transform.position, newPosition, followSpeed);
-                transform.LookAt(target.transform);
+                transform.LookAt(lookAtTarget);
             }
 
             yield return new WaitForFixedUpdate();
@@ -94,10 +97,12 @@ public class CameraMovement : MonoBehaviour {
 
     public Vector3 GetCameraFollowPosition()
     {
-        return target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);
+        int mul = side == 0 ? 1 : -1;
+            lookAtTarget = target.transform;
+            return target.transform.position + new Vector3(cameraDistance, verticalHeight, 0);  
     }
 
-    private IEnumerator RotateCamera()
+    public IEnumerator RotateCamera()
     {
         inRotation = true;
         float rotateAngle = 0;
@@ -118,10 +123,14 @@ public class CameraMovement : MonoBehaviour {
             rotateAngle += angle;
             rotateAngle = Mathf.Clamp(rotateAngle, 0, 180);
 
-            
-
             yield return new WaitForEndOfFrame();
         }
+        side = 1 - side;
         inRotation = false;
+    }
+
+    public void SpellCameraFollow(Transform target)
+    {
+        spellFollowTarget = target;
     }
 }

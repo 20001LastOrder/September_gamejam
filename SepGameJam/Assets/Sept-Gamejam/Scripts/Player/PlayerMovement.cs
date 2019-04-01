@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     private PlayerJump jumpScript;
     private Animator anim;
     protected Rigidbody rig;
-    private int side = 0;
+    
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour {
 
         
 
-        Debug.Log(Physics.gravity);
+        //Debug.Log(Physics.gravity);
 
         AnimateMovement(movementH);
     }

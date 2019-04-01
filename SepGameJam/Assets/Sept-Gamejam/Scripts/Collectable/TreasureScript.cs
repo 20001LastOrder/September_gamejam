@@ -50,12 +50,13 @@ public class TreasureScript : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.F) && !isFiring)
             {
+                Debug.Log("press F");
                 // record how long the key is held
                 timer += Time.deltaTime;
                 tempColor = Color.LerpUnclamped(tempColor, Color.red, Time.deltaTime / 5);
                 gameObject.GetComponent<MeshRenderer>().material.color = tempColor;
             }
-            else if (Input.GetKeyUp(KeyCode.F) && timer > 0)
+            else if (Input.GetKeyUp(KeyCode.F) && timer > 0 && !isFiring)
             {
                 isFiring = true;
                 
@@ -144,7 +145,7 @@ public class TreasureScript : MonoBehaviour {
     {
         Queue<string> spell = new Queue<string>();
         List<string> spellKeys = new List<string>();
-        int level = (int)(time / 5)+1;
+        int level = (int)(time / 2) % 3;
         if (time < 1) level = 0;
         Debug.Log(level);
         switch (level)
@@ -187,14 +188,22 @@ public class TreasureScript : MonoBehaviour {
     {
         // get the closest target
         GameObject target = EnemyManager.Instance.FindCloestEnemyTarget(gameObject, shootingRangeWidth, shootingRangeLength);
+        
         // shoot the spell (fireball or beam or something)
         Vector3 targetDir;
-        if (target == null) targetDir = transform.forward;
-        else targetDir = (target.transform.position + new Vector3(0, 3, 0) - transform.position).normalized;
-        Debug.Log(target);
+        if (target == null)
+        {
+            targetDir = transform.forward;
+        }
+        else
+        {
+            targetDir = (target.transform.position + new Vector3(0, 3, 0) - transform.position).normalized;
+            Debug.Log(target);
+        }
 
         GameObject fireBall = Instantiate(SpellPrefab, transform.position + targetDir * 0.2f, Quaternion.identity);
         fireBall.GetComponent<CubeFireBall>().SetFirePower(timer);
+        shootingForce = 30 + timer * 7;
         fireBall.GetComponent<Rigidbody>().AddForce(targetDir * shootingForce);
     }
 }

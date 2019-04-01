@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 114003779085617890}
   - {fileID: 114326321484044772}
   - {fileID: 114770421467078790}
+  - {fileID: 114082973292333096}
 --- !u!114 &114003779085617890
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -115,6 +116,28 @@ MonoBehaviour:
   quality:
     overrideState: 1
     value: 3
+--- !u!114 &114082973292333096
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 257
+  sampleCount:
+    overrideState: 1
+    value: 12
 --- !u!114 &114326321484044772
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1492,7 +1515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
   m_Name: LensDistortion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 0

@@ -241,7 +241,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41a435eb6b0be624aaf72e2920a69991, type: 2}
+  - {fileID: 2100000, guid: 4903fa93661db6d48973315a9ddf1c85, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -382,11 +382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fee8f9f748fa64887b7f5a7305ba33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 13, y: -31.1, z: 146.6}
+  destination: {x: 2.4, y: -1.18, z: 258.34}
   doorText: {fileID: 102396462071491592}
   goldReq: 10
   rubyReq: 5
   IwantKeyButton: {fileID: 0}
-  _color: {r: 0.7169812, g: 0.15218942, b: 0.15592965, a: 0}
   lastDoor: 0
   locked: 0

@@ -24,7 +24,7 @@ public class CubeFireBall : MonoBehaviour
         // explosion effect
 
         gameObject.GetComponent<PKFxFX>().enabled = false;
-        Destroy(gameObject, 2f);
+        Destroy(gameObject);
     }
 
     
