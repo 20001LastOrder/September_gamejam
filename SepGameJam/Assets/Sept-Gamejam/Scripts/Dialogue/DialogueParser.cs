@@ -31,7 +31,7 @@ public class DialogueParser : MonoBehaviour
 
     void Start()
     {
-        string file = "Assets/Sept-Gamejam/Data/Dialogue";
+        string file = Path.Combine(Application.persistentDataPath, "Data/Dialogue");
         string sceneNum = SceneManager.GetActiveScene().name;
         sceneNum = Regex.Replace(sceneNum, "[^0-9]", "");
         file += sceneNum;

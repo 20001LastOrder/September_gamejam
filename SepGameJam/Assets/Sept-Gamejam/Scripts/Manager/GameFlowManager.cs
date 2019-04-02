@@ -65,6 +65,7 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
     private void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         bgMusic.Play();
     }
 
