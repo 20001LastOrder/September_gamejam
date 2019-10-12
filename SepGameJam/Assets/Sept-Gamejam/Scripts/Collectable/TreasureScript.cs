@@ -145,7 +145,7 @@ public class TreasureScript : MonoBehaviour {
     {
         Queue<string> spell = new Queue<string>();
         List<string> spellKeys = new List<string>();
-        int level = (int)(time / 2) % 3;
+		int level = (int)Mathf.Clamp(time, 0, 3);
         if (time < 1) level = 0;
         Debug.Log(level);
         switch (level)
@@ -193,7 +193,7 @@ public class TreasureScript : MonoBehaviour {
         Vector3 targetDir;
         if (target == null)
         {
-            targetDir = transform.forward;
+            targetDir = transform.worldToLocalMatrix.MultiplyVector(transform.forward);
         }
         else
         {

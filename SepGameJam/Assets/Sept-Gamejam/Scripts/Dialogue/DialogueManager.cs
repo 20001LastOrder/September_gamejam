@@ -87,7 +87,7 @@ public class DialogueManager : MonoBehaviour
                 {
                     StopCoroutine(cur_Coroutine);
                     dialogueBox.text = dialogue;
-                    Debug.Log(dialogue);
+                    //Debug.Log(dialogue);
                     isTyping = false;
                     nextLine = false;
                     last = Time.time;
@@ -127,7 +127,7 @@ public class DialogueManager : MonoBehaviour
 
         while (isActive)
         {
-            Debug.Log("next line before = " + nextLine);
+            //Debug.Log("next line before = " + nextLine);
             //yield return new WaitUntil(() => nextLine == true);
             if (nextLine)
             {
@@ -139,7 +139,7 @@ public class DialogueManager : MonoBehaviour
 
                     lineNum++;
                 }
-                Debug.Log("next line = " + nextLine);
+                //Debug.Log("next line = " + nextLine);
 
                 UpdateUI();
 
@@ -279,7 +279,7 @@ public class DialogueManager : MonoBehaviour
         for (int i = 0; i < dialogue.Length + 1; i++)
         {
             dialogueBox.text = dialogue.Substring(0, i);
-            Debug.Log("typing typing");
+            //Debug.Log("typing typing");
             //aud.clip = typeSound;
             //aud.Play();
             yield return new WaitForSeconds(delayTime);

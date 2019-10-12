@@ -43,29 +43,32 @@ public class DoorScript : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (lastDoor)
+        if (other.gameObject.tag == "Player")
         {
-            // win condition
-            if (GameFlowManager.Instance.getKey())
-            {
-                locked = false;
-            }
-            else if (GameFlowManager.Instance.getGold() >= goldReq && GameFlowManager.Instance.getRuby() >= rubyReq)
-            {
-                locked = false;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && !locked)
-        {
-            if (entity != null && !lastDoor)
-            {
-                entity.transform.position = destination;
-            }
-            else
+            if (lastDoor)
             {
                 // win condition
-                GameFlowManager.Instance.Win();
+                if (GameFlowManager.Instance.getKey())
+                {
+                    locked = false;
+                }
+                else if (GameFlowManager.Instance.getGold() >= goldReq && GameFlowManager.Instance.getRuby() >= rubyReq)
+                {
+                    locked = false;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && !locked)
+            {
+                if (entity != null && !lastDoor)
+                {
+                    entity.transform.position = destination;
+                }
+                else
+                {
+                    // win condition
+                    GameFlowManager.Instance.Win();
+                }
             }
         }
 

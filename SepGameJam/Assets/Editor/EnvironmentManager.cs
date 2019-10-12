@@ -58,6 +58,9 @@ public class EnvironmentManager : EditorWindow {
     // generate a platformer level based on the params
     private void GenerateLevel()
     {
+        Transform parent = new GameObject("Environment").transform;
+        parent.tag = "GeneratedItem";
+
         GameObject gameObject = null;
    
         int objectLength = 10;
@@ -93,6 +96,7 @@ public class EnvironmentManager : EditorWindow {
                 }
 
                 spawnPoint = new Vector3(spawnPoint.x, spawnPoint.y + randomHeight, spawnPoint.z + objectLength);
+                gameObject.transform.SetParent(parent);
                 SetParam(gameObject, spawnPoint);
             }
 

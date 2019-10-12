@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Gold
   - Ruby
+  - Dark Light
   layers:
   - Default
   - TransparentFX

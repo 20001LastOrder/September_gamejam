@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         //Debug.Log(Input.inputString);
         anim.SetFloat("Velocity", rig.velocity.y);
+        rig.velocity -= Vector3.forward * rig.velocity.z;
 
         if (jumpScript.grounded())
         {

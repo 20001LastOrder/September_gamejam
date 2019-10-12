@@ -19,7 +19,12 @@ public class CameraMovement : MonoBehaviour {
     [HideInInspector]
     public bool switchStateOn = false;
     public bool inEvent = false;
-    public int side = 0;
+	public int side = 0;	//right(bright) side = 0, left(dark) side = 1
+
+	[Space]
+	public Material skybox_day;
+	public Material skybox_night;
+	private bool changeSkybox;
 
     private Vector3 direction;
     private Transform spellFollowTarget;
@@ -123,10 +128,27 @@ public class CameraMovement : MonoBehaviour {
             rotateAngle += angle;
             rotateAngle = Mathf.Clamp(rotateAngle, 0, 180);
 
+			// change skybox 
+			if (rotateAngle > 135 && !changeSkybox) {
+				changeSkybox = true;
+				int s = 1 - side;
+				switch (s) {
+				case 0:
+					GameFlowManager.Instance.SwitchToDay ();
+					RenderSettings.skybox = skybox_day;
+					break;
+				case 1:
+					GameFlowManager.Instance.SwitchToNight ();
+					RenderSettings.skybox = skybox_night;
+					break;
+				}
+			}
+
             yield return new WaitForEndOfFrame();
         }
         side = 1 - side;
         inRotation = false;
+		changeSkybox = false;
     }
 
     public void SpellCameraFollow(Transform target)

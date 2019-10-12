@@ -6,12 +6,12 @@ Man in the Wood;Hey advanturer, glad to see you here.;;
 Man in the Wood;You must have noticed that this is not just a flat world.;;
 Man in the Wood;Do you need me to remind you again?;;
 Player;Yes:line,8;No:line,10
-Man in the Wood;Alright, press R to change your view so you can see different sides;;
+Man in the Wood;Alright, press R to change your view so you can see different sides, even day and night;;
 Man in the Wood;You might find something new as you go on;;
-Man in the Wood;Alright. I heard there is a magical cube hidden here, very powerful;;
-Man in the Wood;Many people tried to find it but reached nothing in the end;;
+Man in the Wood;Alright. I heard there is a magical cube hidden here, very powerful. Once you obtained it, you can cast powerful spell that can destroy anything;;
+Man in the Wood;Many people tried to find it but reached nothing in the end, thus no one knows how to control it;;
 Player;I will find it:line,13;Nah I'm in a hurry:line,15
-Man in the Wood;Good luck! We will meet again.;;
+Man in the Wood;Good luck! I believe that we will meet again.;;
 End;end1;;
 Man in the Wood;Well, farewell.;;
 End;end1;;

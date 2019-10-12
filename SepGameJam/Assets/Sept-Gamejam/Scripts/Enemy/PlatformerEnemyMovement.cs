@@ -69,7 +69,9 @@ public class PlatformerEnemyMovement : MonoBehaviour {
             }
 
             transform.position = Vector3.MoveTowards(transform.position, path[pathIndex].point, moveSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.LookRotation(path[pathIndex].point - transform.position);
+			if (path [pathIndex].point - transform.position != Vector3.zero) {
+				transform.rotation = Quaternion.LookRotation (path [pathIndex].point - transform.position);
+			}
             
         }
     }

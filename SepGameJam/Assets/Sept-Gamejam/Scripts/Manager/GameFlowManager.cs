@@ -41,11 +41,16 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
 
     private bool hasKey = false;
     private bool hasCube = false;
-
+	private int side;
     private int currentGold = 0;
     private int currentRuby = 0;
 
     private int randomID;
+
+	// lighting setting
+	private GameObject[] darkLights;
+	public Light directionalLight;
+	public Light roomLight;
 
     protected override void Awake () {
 		base.Awake();
@@ -66,6 +71,7 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
     private void Start()
     {
         Debug.Log(Application.persistentDataPath);
+		FindAllDarkLights ();
         bgMusic.Play();
     }
 
@@ -230,4 +236,32 @@ public class GameFlowManager : ManagerBase<GameFlowManager> {
     {
         _playGameUI.UIEnterMainScene();
     }
+
+	public int GetSide(){
+		return _mainCamera.GetComponent<CameraMovement> ().side;
+	}
+
+	// day and night setting change
+	public void SwitchToDay(){
+		for (int i = 0; i < darkLights.Length; i++) {
+			darkLights [i].SetActive (false);
+		}
+		directionalLight.intensity = 0.97f;
+		roomLight.intensity = 0.9f;
+	}
+
+	public void SwitchToNight(){
+		for (int i = 0; i < darkLights.Length; i++) {
+			darkLights [i].SetActive (true);
+		}
+		directionalLight.intensity = 0.1f;
+		roomLight.intensity = 0.8f;
+	}
+
+	public void FindAllDarkLights(){
+		darkLights = GameObject.FindGameObjectsWithTag ("Dark Light");
+		for (int i = 0; i < darkLights.Length; i++) {
+			darkLights [i].SetActive (false);
+		}
+	}
 }

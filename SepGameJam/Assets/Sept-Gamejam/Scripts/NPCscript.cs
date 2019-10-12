@@ -21,6 +21,8 @@ public class NPCscript : MonoBehaviour {
     public Vector3 secondStagePosition;
 
     public Text interactText;
+	public float shiftSpeed = 1.2f;
+	public int triggerSide = 1; 	//determine if he will talk to player during the day or night
 
     private GameObject player;
 
@@ -60,7 +62,7 @@ public class NPCscript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+		if (other.gameObject.tag == "Player" && GameFlowManager.Instance.GetSide() == triggerSide)
         {
             if (!player) player = other.gameObject;
             // some text show the player how to interact
@@ -74,7 +76,7 @@ public class NPCscript : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+		if (other.gameObject.tag == "Player" && GameFlowManager.Instance.GetSide() == triggerSide)
         {
             interactText.enabled = false;
             EndState();
@@ -111,9 +113,10 @@ public class NPCscript : MonoBehaviour {
     {
         //Debug.Log("zoom out the camera");
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-        Transform cam = camera.transform;
+		Transform cam = camera.transform;
+		Vector3 start = cam.position;
         Vector3 dest = CameraMovement.instance.GetCameraFollowPosition();
-        StartCoroutine(ShiftCamera(cam.position, dest, cam, false));
+        StartCoroutine(ShiftCamera(start, dest, cam, false));
     }
 
     public IEnumerator MoveTo(Vector3 pos)
@@ -132,7 +135,7 @@ public class NPCscript : MonoBehaviour {
         if (zoomIn) CameraMovement.instance.inEvent = true;
         while ((from - to).sqrMagnitude >= 0.1f)
         {
-            cam.position = Vector3.MoveTowards(from, to, 1.5f);
+            cam.position = Vector3.MoveTowards(from, to, shiftSpeed);
             from = cam.transform.position;
             cam.LookAt(player.transform);
             yield return new WaitForEndOfFrame();
